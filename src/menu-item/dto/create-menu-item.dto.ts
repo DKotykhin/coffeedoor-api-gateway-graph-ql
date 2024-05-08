@@ -12,54 +12,53 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
-import { LanguageCode } from '../../types/enums';
+import { LanguageCode } from '../../common/types/enums';
 
-class MenuCategory {
-  @ApiProperty()
+@InputType()
+class MenuCategoryId {
+  @Field()
   @IsNotEmpty()
   @IsString()
   @IsUUID()
   id: string;
 }
+@InputType()
 export class CreateMenuItemDto {
-  @ApiProperty({
-    enum: LanguageCode,
-    enumName: 'LanguageCode',
-  })
+  @Field(() => LanguageCode)
   @IsEnum(LanguageCode)
   language: LanguageCode;
 
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   description: string;
 
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsString()
   price: string;
 
-  @ApiProperty({ required: false, default: false })
+  @Field({ nullable: true, defaultValue: false })
   @IsOptional()
   @IsBoolean()
   hidden: boolean;
 
-  @ApiProperty()
+  @Field(() => Int, { defaultValue: 0 })
   @IsNumber()
   position: number;
 
-  @ApiProperty()
+  @Field(() => MenuCategoryId)
   @IsDefined()
   @IsNotEmptyObject()
   @IsObject()
   @ValidateNested()
-  @Type(() => MenuCategory)
-  menuCategory: MenuCategory;
+  @Type(() => MenuCategoryId)
+  menuCategory: MenuCategoryId;
 }

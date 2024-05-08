@@ -8,7 +8,7 @@ import {
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
-import { LanguageCode } from '../types/enums';
+import { LanguageCode } from '../common/types/enums';
 import { errorCodeImplementation } from '../utils/error-code-implementation';
 import {
   CreateStoreCategoryRequest,

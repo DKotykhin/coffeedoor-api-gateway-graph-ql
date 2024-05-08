@@ -7,7 +7,14 @@ describe('StoreItemResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [StoreItemResolver, StoreItemService],
+      providers: [
+        StoreItemResolver,
+        StoreItemService,
+        {
+          provide: 'STORE_ITEM_SERVICE',
+          useValue: {},
+        },
+      ],
     }).compile();
 
     resolver = module.get<StoreItemResolver>(StoreItemResolver);

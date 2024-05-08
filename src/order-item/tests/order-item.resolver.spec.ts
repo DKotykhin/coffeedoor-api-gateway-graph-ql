@@ -7,7 +7,14 @@ describe('OrderItemResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OrderItemResolver, OrderItemService],
+      providers: [
+        OrderItemResolver,
+        OrderItemService,
+        {
+          provide: 'ORDER_ITEM_SERVICE',
+          useValue: {},
+        },
+      ],
     }).compile();
 
     resolver = module.get<OrderItemResolver>(OrderItemResolver);

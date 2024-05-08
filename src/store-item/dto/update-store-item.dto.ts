@@ -1,73 +1,86 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
+@InputType()
 export class UpdateStoreItemDto {
-  @ApiProperty({ required: false })
+  @Field()
+  @IsNotEmpty()
+  @IsUUID()
+  id: string;
+
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   title: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   description: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   details: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   sortKey: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   sortValue: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   country: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   tm: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   price: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   oldPrice: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   discount: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   weight: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean()
   toOrder: boolean;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean()
   hidden: boolean;
 
-  @ApiProperty({ required: false })
+  @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
   position: number;

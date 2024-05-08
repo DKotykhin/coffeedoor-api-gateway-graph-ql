@@ -8,7 +8,7 @@ import {
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
-import { LanguageCode } from '../types/enums';
+import { LanguageCode } from '../common/types/enums';
 import { errorCodeImplementation } from '../utils/error-code-implementation';
 import {
   ChangeMenuCategoryPositionDto,
@@ -100,13 +100,11 @@ export class MenuCategoryService implements OnModuleInit {
   }
 
   async update(
-    id: string,
     updateMenuCategoryDto: UpdateMenuCategoryDto,
   ): Promise<MenuCategory> {
     try {
       return await firstValueFrom(
         this.menuCategoryService.updateMenuCategory({
-          id,
           ...updateMenuCategoryDto,
         }),
       );

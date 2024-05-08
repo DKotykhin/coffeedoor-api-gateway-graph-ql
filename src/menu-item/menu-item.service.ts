@@ -73,14 +73,10 @@ export class MenuItemService implements OnModuleInit {
     }
   }
 
-  async update(
-    id: string,
-    updateMenuItemDto: UpdateMenuItemDto,
-  ): Promise<MenuItem> {
+  async update(updateMenuItemDto: UpdateMenuItemDto): Promise<MenuItem> {
     try {
       return await firstValueFrom(
         this.menuItemService.updateMenuItem({
-          id,
           ...updateMenuItemDto,
         }),
       );

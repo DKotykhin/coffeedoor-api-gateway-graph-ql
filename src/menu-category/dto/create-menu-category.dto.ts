@@ -6,39 +6,37 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
-import { LanguageCode } from '../../types/enums';
+import { LanguageCode } from '../../common/types/enums';
 
+@InputType()
 export class CreateMenuCategoryDto {
-  @ApiProperty({
-    enum: LanguageCode,
-    enumName: 'LanguageCode',
-  })
+  @Field(() => LanguageCode)
   @IsEnum(LanguageCode)
   language: LanguageCode;
 
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   description: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   image: string;
 
-  @ApiProperty({ required: false, type: Boolean, default: false })
+  @Field({ nullable: true, defaultValue: false })
   @IsOptional()
   @IsBoolean()
   hidden: boolean;
 
-  @ApiProperty()
+  @Field(() => Int, { defaultValue: 0 })
   @IsNumber()
   position: number;
 }

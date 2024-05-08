@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { LanguageCode } from '../../types/enums';
+import { LanguageCode } from '../../common/types/enums';
 
 import { MenuCategory } from '../../menu-category/entities/menu-category.entity';
 

@@ -6,7 +6,13 @@ describe('OrderItemService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OrderItemService],
+      providers: [
+        OrderItemService,
+        {
+          provide: 'ORDER_ITEM_SERVICE',
+          useValue: {},
+        },
+      ],
     }).compile();
 
     service = module.get<OrderItemService>(OrderItemService);

@@ -1,30 +1,37 @@
-import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
 } from 'class-validator';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
+@InputType()
 export class UpdateStoreCategoryDto {
-  @ApiProperty({ required: false })
+  @Field()
+  @IsNotEmpty()
+  @IsUUID()
+  id: string;
+
+  @Field({ nullable: true })
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   subtitle: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean()
   hidden?: boolean;
 
-  @ApiProperty({ required: false })
+  @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
   position: number;

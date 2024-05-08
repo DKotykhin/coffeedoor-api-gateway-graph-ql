@@ -12,102 +12,103 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
-import { LanguageCode } from '../../types/enums';
+import { LanguageCode } from '../../common/types/enums';
 
-class StoreCategory {
-  @ApiProperty()
+@InputType()
+class StoreCategoryId {
+  @Field()
   @IsNotEmpty()
   @IsString()
   @IsUUID()
   id: string;
 }
+@InputType()
 export class CreateStoreItemDto {
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsString()
   slug: string;
 
-  @ApiProperty({
-    enum: LanguageCode,
-    enumName: 'LanguageCode',
-  })
+  @Field(() => LanguageCode)
   @IsEnum(LanguageCode)
   language: LanguageCode;
 
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   description: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   details: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   sortKey: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   sortValue: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   country: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   tm: string;
 
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsNumber()
   price: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   oldPrice: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   discount: number;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
   weight: number;
 
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean()
   toOrder: boolean;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean()
   hidden: boolean;
 
-  @ApiProperty()
+  @Field(() => Int, { defaultValue: 0 })
   @IsNumber()
   position: number;
 
+  @Field(() => StoreCategoryId)
   @IsDefined()
   @IsObject()
   @IsNotEmptyObject()
   @ValidateNested()
-  @Type(() => StoreCategory)
-  category: StoreCategory;
+  @Type(() => StoreCategoryId)
+  category: StoreCategoryId;
 }

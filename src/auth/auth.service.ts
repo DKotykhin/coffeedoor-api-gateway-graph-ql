@@ -8,7 +8,6 @@ import {
 import { ClientGrpc } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
 import { firstValueFrom } from 'rxjs';
-import { Response } from 'express';
 
 import { errorCodeImplementation } from '../utils/error-code-implementation';
 import {
@@ -17,9 +16,11 @@ import {
   StatusResponse,
   User,
 } from './auth.pb';
-import { EmailDto, PasswordDto, SignInDto, SignUpDto } from './dto/auth.dto';
+import { EmailDto, SignInDto, SignUpDto } from './dto/auth.dto';
 import { JwtPayload } from './dto/jwtPayload.dto';
 import { FileUploadService } from '../file-upload/file-upload.service';
+import { SignInResponse } from './entities/sign-in-response.entity';
+import { NewPasswordDto } from './dto/new-password.dto';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -57,17 +58,13 @@ export class AuthService implements OnModuleInit {
     }
   }
 
-  async signIn(
-    signInDto: SignInDto,
-    response: Response,
-  ): Promise<Partial<User>> {
+  async signIn(signInDto: SignInDto): Promise<SignInResponse> {
     try {
       const user = await firstValueFrom(this.authService.signIn(signInDto));
       const payload: JwtPayload = { email: user.email };
       const auth_token = this.jwtService.sign(payload);
-      response.cookie('auth_token', auth_token, { httpOnly: true });
-      console.log('auth_token:', auth_token);
-      return user;
+      // console.log('auth_token:', auth_token);
+      return { user, token: auth_token };
     } catch (error) {
       this.logger.error(error?.details);
       throw new HttpException(
@@ -89,9 +86,9 @@ export class AuthService implements OnModuleInit {
     }
   }
 
-  async resendEmail(email: string): Promise<StatusResponse> {
+  async resendEmail(email: EmailDto): Promise<StatusResponse> {
     try {
-      return await firstValueFrom(this.authService.resendEmail({ email }));
+      return await firstValueFrom(this.authService.resendEmail(email));
     } catch (error) {
       this.logger.error(error?.details);
       throw new HttpException(
@@ -114,9 +111,9 @@ export class AuthService implements OnModuleInit {
   }
 
   async setNewPassword(
-    token: string,
-    password: PasswordDto['password'],
+    newPasswordDto: NewPasswordDto,
   ): Promise<StatusResponse> {
+    const { token, password } = newPasswordDto;
     try {
       return await firstValueFrom(
         this.authService.setNewPassword({ token, password }),

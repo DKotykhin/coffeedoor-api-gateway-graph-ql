@@ -1,18 +1,19 @@
 import { IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
+@InputType()
 export class ChangeMenuCategoryPositionDto {
-  @ApiProperty()
+  @Field()
   @IsNotEmpty()
   @IsUUID()
   id: string;
 
-  @ApiProperty()
+  @Field(() => Int)
   @IsNotEmpty()
   @IsNumber()
   oldPosition: number;
 
-  @ApiProperty()
+  @Field(() => Int)
   @IsNotEmpty()
   @IsNumber()
   newPosition: number;

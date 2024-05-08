@@ -5,36 +5,43 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 import { CreateMenuItemDto } from './create-menu-item.dto';
 
+@InputType()
 export class UpdateMenuItemDto extends PartialType(CreateMenuItemDto) {
-  @ApiProperty({ required: false })
+  @Field()
+  @IsNotEmpty()
+  @IsUUID()
+  id: string;
+
+  @Field({ nullable: true })
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   description: string;
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   price: string;
 
-  @ApiProperty({ required: false, default: false })
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean()
   hidden: boolean;
 
-  @ApiProperty({ required: false })
+  @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
   position: number;

@@ -1,5 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { LanguageCode } from '../../types/enums';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { LanguageCode } from '../../common/types/enums';
 
 import { MenuItem } from '../../menu-item/entities/menu-item.entity';
 
@@ -20,7 +20,7 @@ export class MenuCategory {
   @Field({ defaultValue: false })
   hidden: boolean;
 
-  @Field({ defaultValue: 0 })
+  @Field(() => Int, { defaultValue: 0 })
   position: number;
 
   @Field(() => [MenuItem], { nullable: true })
