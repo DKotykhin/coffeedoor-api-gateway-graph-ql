@@ -4,7 +4,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
 } from 'class-validator';
 import { Field, InputType, Int } from '@nestjs/graphql';
 
@@ -12,8 +11,8 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 export class UpdateStoreItemDto {
   @Field()
   @IsNotEmpty()
-  @IsUUID()
-  id: string;
+  @IsString()
+  slug: string;
 
   @Field({ nullable: true })
   @IsOptional()

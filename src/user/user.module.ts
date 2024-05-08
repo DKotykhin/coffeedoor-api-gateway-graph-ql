@@ -6,9 +6,11 @@ import { userGrpcConfig } from '../config/grpc.config';
 
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
+import { UserController } from './user.controller';
 
 @Module({
   imports: [ClientsModule.registerAsync([userGrpcConfig])],
+  controllers: [UserController],
   providers: [UserResolver, UserService, FileUploadService],
   exports: [UserService],
 })
