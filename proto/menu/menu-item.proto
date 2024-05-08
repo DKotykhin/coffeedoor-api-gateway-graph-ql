@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package menuItem;
+
+message MenuItem {
+  string id = 1;
+  string language = 2;
+  string title = 3;
+  string description = 4;
+  string price = 5;
+  bool hidden = 6;
+  int32 position = 7;
+  Id menuCategory = 8;
+}
+
+message MenuItemList {
+  repeated MenuItem menuItemList = 1;
+}
+message Id {
+  string id = 1;
+}
+message CreateMenuItemRequest {
+  string language = 1;
+  string title = 2;
+  string description = 3;
+  string price = 4;
+  bool hidden = 5;
+  int32 position = 6;
+  Id menuCategory = 7;
+}
+message UpdateMenuItemRequest {
+  string id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  optional string price = 4;
+  optional bool hidden = 5;
+  optional int32 position = 6;
+}
+message ChangeMenuItemPositionRequest {
+    string id = 1;
+    int32 oldPosition = 2;
+    int32 newPosition = 3;
+  }
+message StatusResponse {
+  bool status = 1;
+  string message = 2;
+}
+
+service MenuItemService {
+  rpc GetMenuItemsByCategoryId(Id) returns (MenuItemList) {}
+  rpc GetMenuItemById(Id) returns (MenuItem) {}
+  rpc CreateMenuItem(CreateMenuItemRequest) returns (MenuItem) {}
+  rpc UpdateMenuItem(UpdateMenuItemRequest) returns (MenuItem) {}
+  rpc ChangeMenuItemPosition(ChangeMenuItemPositionRequest) returns (MenuItem) {}
+  rpc DeleteMenuItem(Id) returns (StatusResponse) {}
+}
+
+// protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./ --ts_proto_opt=nestJs=true ./proto/menu-item.proto
