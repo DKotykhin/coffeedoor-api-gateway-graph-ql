@@ -12,10 +12,10 @@ import {
   ParseFilePipe,
 } from '@nestjs/common/pipes';
 
-import { UserService } from './user.service';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
-import { StatusResponse, User } from './user.pb';
 import { GetUser } from '../auth/decorators/get-user.decorator';
+import { StatusResponse, User } from './user.pb';
+import { UserService } from './user.service';
 
 @Controller('user')
 @UseGuards(GqlAuthGuard)

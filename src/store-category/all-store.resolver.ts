@@ -9,7 +9,7 @@ export class AllStoreResolver {
   constructor(private readonly storeCategoryService: StoreCategoryService) {}
 
   @Query(() => [StoreCategory])
-  async findByLanguage(
+  async getStoreByLanguage(
     @Args('language') language: LanguageCode,
   ): Promise<StoreCategory[]> {
     return this.storeCategoryService.findByLanguage(language);

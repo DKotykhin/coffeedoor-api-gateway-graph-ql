@@ -15,7 +15,6 @@ import {
   STORE_CATEGORY_SERVICE_NAME,
   StatusResponse,
   StoreCategory,
-  StoreCategoryList,
   StoreCategoryServiceClient,
 } from './store-category.pb';
 import { UpdateMenuCategoryRequest } from '../menu-category/menu-category.pb';
@@ -72,11 +71,12 @@ export class StoreCategoryService implements OnModuleInit {
     }
   }
 
-  async findAll(): Promise<StoreCategoryList> {
+  async findAll(): Promise<StoreCategory[]> {
     try {
-      return await firstValueFrom(
+      const { storeCategoryList } = await firstValueFrom(
         this.storeCategoryService.getAllStoreCategories({}),
       );
+      return storeCategoryList;
     } catch (error) {
       this.logger.error(error?.details);
       throw new HttpException(

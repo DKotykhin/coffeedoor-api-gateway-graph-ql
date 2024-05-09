@@ -5,6 +5,9 @@ import { StoreItem } from '../../store-item/entities/store-item.entity';
 
 @ObjectType()
 export class StoreCategory {
+  @Field()
+  id: string;
+
   @Field(() => LanguageCode)
   language: LanguageCode | string;
 

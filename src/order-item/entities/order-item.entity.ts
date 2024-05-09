@@ -1,6 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-
-import { Order } from '../../order/entities/order.entity';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class OrderItem {
@@ -16,17 +14,12 @@ export class OrderItem {
   @Field()
   itemTitle: string;
 
-  @Field({ defaultValue: 0 })
+  @Field(() => Int, { defaultValue: 0 })
   price: number;
 
-  @Field({ defaultValue: 0 })
+  @Field(() => Int, { defaultValue: 0 })
   quantity: number;
 
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   weight?: number;
-
-  @Field(() => Order, { nullable: true })
-  order?: {
-    id: string;
-  };
 }

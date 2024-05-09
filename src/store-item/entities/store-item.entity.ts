@@ -1,7 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 import { LanguageCode } from '../../common/types/enums';
-import { StoreCategory } from '../../store-category/entities/store-category.entity';
 import { StoreItemImage } from '../../store-item-image/entities/store-item-image.entity';
 
 @ObjectType()
@@ -57,11 +56,9 @@ export class StoreItem {
   @Field({ defaultValue: 0 })
   position: number;
 
-  @Field(() => StoreCategory, { nullable: true })
-  category?: {
-    id: string;
-  };
-
   @Field(() => [StoreItemImage], { nullable: true })
   images?: StoreItemImage[];
+
+  @Field(() => [String], { nullable: true })
+  imageUrl?: string[];
 }

@@ -11,6 +11,7 @@ import { MenuCategory } from './entities/menu-category.entity';
 import { CreateMenuCategoryDto } from './dto/create-menu-category.dto';
 import { UpdateMenuCategoryDto } from './dto/update-menu-category.dto';
 import { ChangeMenuCategoryPositionDto } from './dto/change-menu-category-position.dto';
+import { StatusResponse } from '../common/entities/status-response.entity';
 
 @Resolver()
 @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
@@ -19,41 +20,41 @@ export class MenuCategoryResolver {
   constructor(private readonly menuCategoryService: MenuCategoryService) {}
 
   @Query(() => [MenuCategory])
-  async menuCategories() {
+  async getMenuCategories(): Promise<MenuCategory[]> {
     return this.menuCategoryService.findAll();
   }
 
   @Query(() => MenuCategory)
-  async menuCategory(@Args('id') id: string) {
+  async getMenuCategory(@Args('id') id: string): Promise<MenuCategory> {
     return this.menuCategoryService.findById(id);
   }
 
   @Mutation(() => MenuCategory)
   async createMenuCategory(
     @Args('createMenuCategoryDto') createMenuCategoryDto: CreateMenuCategoryDto,
-  ) {
+  ): Promise<MenuCategory> {
     return this.menuCategoryService.create(createMenuCategoryDto);
   }
 
   @Mutation(() => MenuCategory)
   async updateMenuCategory(
     @Args('updateMenuCategoryDto') updateMenuCategoryDto: UpdateMenuCategoryDto,
-  ) {
+  ): Promise<MenuCategory> {
     return this.menuCategoryService.update(updateMenuCategoryDto);
   }
 
   @Mutation(() => MenuCategory)
-  async changePosition(
+  async changeMenuCategoryPosition(
     @Args('changeMenuCategoryPositionDto')
     changeMenuCategoryPositionDto: ChangeMenuCategoryPositionDto,
-  ) {
+  ): Promise<MenuCategory> {
     return this.menuCategoryService.changePosition(
       changeMenuCategoryPositionDto,
     );
   }
 
-  @Mutation(() => MenuCategory)
-  async deleteMenuCategory(@Args('id') id: string) {
+  @Mutation(() => StatusResponse)
+  async deleteMenuCategory(@Args('id') id: string): Promise<StatusResponse> {
     return this.menuCategoryService.remove(id);
   }
 }

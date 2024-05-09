@@ -8,7 +8,9 @@ export class StoreItemWithAdResolver {
   constructor(private readonly storeItemService: StoreItemService) {}
 
   @Query(() => StoreItemWithAd)
-  async findBySlugWithAd(@Args('slug') slug: string): Promise<StoreItemWithAd> {
+  async getStoreItemBySlugWithAd(
+    @Args('slug') slug: string,
+  ): Promise<StoreItemWithAd> {
     return this.storeItemService.findBySlugWithAd(slug);
   }
 }

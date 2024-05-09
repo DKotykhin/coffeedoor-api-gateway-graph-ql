@@ -5,8 +5,11 @@ import { MenuItem } from '../../menu-item/entities/menu-item.entity';
 
 @ObjectType()
 export class MenuCategory {
+  @Field()
+  id: string;
+
   @Field(() => LanguageCode)
-  language: LanguageCode;
+  language: LanguageCode | string;
 
   @Field()
   title: string;

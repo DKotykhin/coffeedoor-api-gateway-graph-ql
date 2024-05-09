@@ -5,6 +5,9 @@ import { DeliveryWay, OrderStatus } from '../../common/types/enums';
 
 @ObjectType()
 export class Order {
+  @Field()
+  id: string;
+
   @Field({ nullable: true })
   userName: string;
 

@@ -6,7 +6,6 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   FileTypeValidator,
@@ -20,10 +19,11 @@ import { RoleTypes } from '../common/types/enums';
 
 import { StoreItemImageService } from './store-item-image.service';
 import { StatusResponse } from './store-item-image.pb';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 
 @Controller('store-item-image')
 @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(GqlAuthGuard, RolesGuard)
 export class StoreItemImageController {
   constructor(private readonly storeItemImageService: StoreItemImageService) {}
 

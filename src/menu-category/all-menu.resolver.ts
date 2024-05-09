@@ -8,8 +8,10 @@ import { MenuCategory } from './entities/menu-category.entity';
 export class AllMenuResolver {
   constructor(private readonly menuCategoryService: MenuCategoryService) {}
 
-  @Query(() => [MenuCategory])
-  async findByLanguage(@Args('language') language: LanguageCode) {
+  @Query(() => [MenuCategory], { name: 'getMenuByLanguage' })
+  async findByLanguage(
+    @Args('language') language: LanguageCode,
+  ): Promise<MenuCategory[]> {
     return this.menuCategoryService.findByLanguage(language);
   }
 }

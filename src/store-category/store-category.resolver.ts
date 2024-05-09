@@ -19,25 +19,25 @@ export class StoreCategoryResolver {
   constructor(private readonly storeCategoryService: StoreCategoryService) {}
 
   @Query(() => [StoreCategory])
-  async findAll(): Promise<{ storeCategoryList: StoreCategory[] }> {
+  async getAllStore(): Promise<StoreCategory[]> {
     return this.storeCategoryService.findAll();
   }
 
   @Query(() => StoreCategory)
-  async findById(@Args('id') id: string): Promise<StoreCategory> {
+  async getStoreCategoryById(@Args('id') id: string): Promise<StoreCategory> {
     return this.storeCategoryService.findById(id);
   }
 
   @Mutation(() => StoreCategory)
-  async create(
-    @Args('createMenuCategoryDto')
-    createMenuCategoryDto: CreateStoreCategoryDto,
+  async createStoreCategory(
+    @Args('createStoreCategoryDto')
+    createStoreCategoryDto: CreateStoreCategoryDto,
   ): Promise<StoreCategory> {
-    return this.storeCategoryService.create(createMenuCategoryDto);
+    return this.storeCategoryService.create(createStoreCategoryDto);
   }
 
   @Mutation(() => StoreCategory)
-  async update(
+  async updateStoreCategory(
     @Args('updateStoreCategoryDto')
     updateStoreCategoryDto: UpdateStoreCategoryDto,
   ): Promise<StoreCategory> {
@@ -45,7 +45,7 @@ export class StoreCategoryResolver {
   }
 
   @Mutation(() => StatusResponse)
-  async delete(@Args('id') id: string): Promise<StatusResponse> {
+  async deleteStoreCategory(@Args('id') id: string): Promise<StatusResponse> {
     return this.storeCategoryService.delete(id);
   }
 }

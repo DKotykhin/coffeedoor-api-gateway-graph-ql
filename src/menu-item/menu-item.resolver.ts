@@ -20,26 +20,26 @@ export class MenuItemResolver {
   constructor(private readonly menuItemService: MenuItemService) {}
 
   @Query(() => [MenuItem])
-  async findAllByCategoryId(@Args('id') id: string) {
+  async getMenuItemsByCategoryId(@Args('id') id: string): Promise<MenuItem[]> {
     return this.menuItemService.findAllByCategoryId(id);
   }
 
   @Query(() => MenuItem)
-  async menuItem(@Args('id') id: string) {
+  async getMenuItemById(@Args('id') id: string): Promise<MenuItem> {
     return this.menuItemService.findById(id);
   }
 
   @Mutation(() => MenuItem)
   async createMenuItem(
     @Args('createMenuItemDto') createMenuItemDto: CreateMenuItemDto,
-  ) {
+  ): Promise<MenuItem> {
     return this.menuItemService.create(createMenuItemDto);
   }
 
   @Mutation(() => MenuItem)
   async updateMenuItem(
     @Args('updateMenuItemDto') updateMenuItemDto: UpdateMenuItemDto,
-  ) {
+  ): Promise<MenuItem> {
     return this.menuItemService.update(updateMenuItemDto);
   }
 
@@ -47,12 +47,12 @@ export class MenuItemResolver {
   async changeMenuItemPosition(
     @Args('changeMenuItemPositionDto')
     changeMenuItemPositionDto: ChangeMenuItemPositionDto,
-  ) {
+  ): Promise<MenuItem> {
     return this.menuItemService.changePosition(changeMenuItemPositionDto);
   }
 
   @Mutation(() => StatusResponse)
-  async deleteMenuItem(@Args('id') id: string) {
+  async deleteMenuItem(@Args('id') id: string): Promise<StatusResponse> {
     return this.menuItemService.remove(id);
   }
 }

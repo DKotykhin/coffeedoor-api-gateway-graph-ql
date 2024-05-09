@@ -5,12 +5,12 @@ import { User } from '../user/entities/user.entity';
 import { StatusResponse } from '../common/entities/status-response.entity';
 
 import { AuthService } from './auth.service';
-import { GetUser } from './decorators/get-user.decorator';
 import { User as UserType } from './auth.pb';
+import { GetUser } from './decorators/get-user.decorator';
 import { EmailDto, SignInDto, SignUpDto } from './dto/auth.dto';
+import { NewPasswordDto } from './dto/new-password.dto';
 import { SignInResponse } from './entities/sign-in-response.entity';
 import { GqlAuthGuard } from './guards/gql-auth.guard';
-import { NewPasswordDto } from './dto/new-password.dto';
 
 @Resolver()
 export class AuthResolver {
@@ -48,7 +48,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => StatusResponse)
-  newPassword(
+  setNewPassword(
     @Args('newPassword') newPasswordDto: NewPasswordDto,
   ): Promise<StatusResponse> {
     return this.authService.setNewPassword(newPasswordDto);
