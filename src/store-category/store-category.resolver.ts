@@ -8,6 +8,7 @@ import { HasRoles } from '../auth/decorators/roles.decorator';
 
 import { StoreCategoryService } from './store-category.service';
 import { StoreCategory } from './entities/store-category.entity';
+import { StoreCategoryWithItems } from './entities/store-category-with-items.entity';
 import { CreateStoreCategoryDto } from './dto/create-store-category.dto';
 import { UpdateStoreCategoryDto } from './dto/update-store-category.dto';
 import { StatusResponse } from '../common/entities/status-response.entity';
@@ -18,13 +19,15 @@ import { StatusResponse } from '../common/entities/status-response.entity';
 export class StoreCategoryResolver {
   constructor(private readonly storeCategoryService: StoreCategoryService) {}
 
-  @Query(() => [StoreCategory])
-  async getAllStore(): Promise<StoreCategory[]> {
+  @Query(() => [StoreCategoryWithItems])
+  async getAllStore(): Promise<StoreCategoryWithItems[]> {
     return this.storeCategoryService.findAll();
   }
 
-  @Query(() => StoreCategory)
-  async getStoreCategoryById(@Args('id') id: string): Promise<StoreCategory> {
+  @Query(() => StoreCategoryWithItems)
+  async getStoreCategoryById(
+    @Args('id') id: string,
+  ): Promise<StoreCategoryWithItems> {
     return this.storeCategoryService.findById(id);
   }
 

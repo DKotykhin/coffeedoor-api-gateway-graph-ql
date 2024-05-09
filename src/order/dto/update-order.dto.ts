@@ -17,50 +17,50 @@ export class UpdateOrderDto {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  userName?: string;
+  userName: string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  userId?: string;
+  userId: string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  phoneNumber?: string;
+  phoneNumber: string;
 
   @Field(() => DeliveryWay, { nullable: true })
   @IsOptional()
   @IsEnum(DeliveryWay)
-  deliveryWay?: DeliveryWay | string;
+  deliveryWay: DeliveryWay | string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  deliveryAddress?: string;
+  deliveryAddress: string;
 
   @Field(() => OrderStatus, { nullable: true })
   @IsOptional()
   @IsEnum(OrderStatus)
-  orderStatus?: OrderStatus | string;
+  orderStatus: OrderStatus | string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  comment?: string;
+  comment: string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
-  totalSum?: number;
+  totalSum: number;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
-  averageSum?: number;
+  averageSum: number;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsNumber()
-  totalQuantity?: number;
+  totalQuantity: number;
 }

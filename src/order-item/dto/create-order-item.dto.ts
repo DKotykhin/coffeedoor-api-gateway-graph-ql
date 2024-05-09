@@ -1,10 +1,15 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
 import {
+  IsDefined,
   IsNotEmpty,
+  IsNotEmptyObject,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   IsUUID,
+  ValidateNested,
 } from 'class-validator';
 
 @InputType()
@@ -44,9 +49,13 @@ export class CreateOrderItem {
   @Field(() => Int, { nullable: true })
   @IsNumber()
   @IsOptional()
-  weight?: number;
+  weight: number;
 
   @Field(() => OrderId)
-  @IsNotEmpty()
+  @IsDefined()
+  @IsObject()
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => OrderId)
   order: OrderId;
 }

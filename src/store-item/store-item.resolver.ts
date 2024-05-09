@@ -22,30 +22,30 @@ export class StoreItemResolver {
   async getStoreItemsByCategoryId(
     @Args('categoryId') categoryId: string,
   ): Promise<StoreItem[]> {
-    return this.storeItemService.findByCategoryId(categoryId);
+    return this.storeItemService.getStoreItemsByCategoryId(categoryId);
   }
 
   @Query(() => StoreItem)
   async getStoreItemBySlug(@Args('slug') slug: string): Promise<StoreItem> {
-    return this.storeItemService.findBySlug(slug);
+    return this.storeItemService.getStoreItemBySlug(slug);
   }
 
   @Mutation(() => StoreItem)
   async createStoreItem(
     @Args('createStoreItemDto') createStoreItemDto: CreateStoreItemDto,
   ): Promise<StoreItem> {
-    return this.storeItemService.create(createStoreItemDto);
+    return this.storeItemService.createStoreItem(createStoreItemDto);
   }
 
   @Mutation(() => StoreItem)
   async updateStoreItem(
     @Args('updateStoreItemDto') updateStoreItemDto: UpdateStoreItemDto,
   ): Promise<StoreItem> {
-    return this.storeItemService.update(updateStoreItemDto);
+    return this.storeItemService.updateStoreItem(updateStoreItemDto);
   }
 
   @Mutation(() => StatusResponse)
   async deleteStoreItem(@Args('slug') slug: string): Promise<StatusResponse> {
-    return this.storeItemService.delete(slug);
+    return this.storeItemService.deleteStoreItem(slug);
   }
 }

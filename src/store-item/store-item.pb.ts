@@ -8,6 +8,7 @@ export interface Empty {
 }
 
 export interface StoreItem {
+  imageUrl: string[] | undefined;
   slug: string;
   language: string;
   title: string;

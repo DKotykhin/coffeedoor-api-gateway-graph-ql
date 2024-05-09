@@ -19,8 +19,6 @@ import { LanguageCode } from '../../common/types/enums';
 @InputType()
 class StoreCategoryId {
   @Field()
-  @IsNotEmpty()
-  @IsString()
   @IsUUID()
   id: string;
 }

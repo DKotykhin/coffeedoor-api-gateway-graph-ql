@@ -12,6 +12,7 @@ import { CreateMenuCategoryDto } from './dto/create-menu-category.dto';
 import { UpdateMenuCategoryDto } from './dto/update-menu-category.dto';
 import { ChangeMenuCategoryPositionDto } from './dto/change-menu-category-position.dto';
 import { StatusResponse } from '../common/entities/status-response.entity';
+import { MenuCategoryWithItems } from './entities/menu-category-with-items.entity';
 
 @Resolver()
 @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
@@ -19,13 +20,15 @@ import { StatusResponse } from '../common/entities/status-response.entity';
 export class MenuCategoryResolver {
   constructor(private readonly menuCategoryService: MenuCategoryService) {}
 
-  @Query(() => [MenuCategory])
-  async getMenuCategories(): Promise<MenuCategory[]> {
+  @Query(() => [MenuCategoryWithItems])
+  async getMenuCategories(): Promise<MenuCategoryWithItems[]> {
     return this.menuCategoryService.findAll();
   }
 
-  @Query(() => MenuCategory)
-  async getMenuCategoryById(@Args('id') id: string): Promise<MenuCategory> {
+  @Query(() => MenuCategoryWithItems)
+  async getMenuCategoryById(
+    @Args('id') id: string,
+  ): Promise<MenuCategoryWithItems> {
     return this.menuCategoryService.findById(id);
   }
 

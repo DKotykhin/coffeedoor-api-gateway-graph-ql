@@ -23,26 +23,27 @@ class UserOrder {
 
   @Field({ nullable: true })
   @IsOptional()
-  userId?: string;
+  userId: string;
 
   @Field(() => DeliveryWay, { nullable: true })
   @IsOptional()
   @IsEnum(DeliveryWay)
-  deliveryWay?: DeliveryWay | string;
+  deliveryWay: DeliveryWay | string;
 
-  @Field(() => OrderStatus, { defaultValue: OrderStatus.NEW })
+  @Field(() => OrderStatus, { nullable: true })
+  @IsOptional()
   @IsEnum(OrderStatus)
   orderStatus: OrderStatus | string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  deliveryAddress?: string;
+  deliveryAddress: string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  comment?: string;
+  comment: string;
 }
 
 @InputType()
@@ -72,10 +73,10 @@ class UserOrderItem {
   @IsNumber()
   quantity: number;
 
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  weight?: number;
+  weight: number;
 }
 
 @InputType()

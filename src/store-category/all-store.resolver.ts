@@ -1,17 +1,17 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 
 import { StoreCategoryService } from './store-category.service';
-import { StoreCategory } from './entities/store-category.entity';
 import { LanguageCode } from '../common/types/enums';
+import { StoreCategoryWithItems } from './entities/store-category-with-items.entity';
 
 @Resolver()
 export class AllStoreResolver {
   constructor(private readonly storeCategoryService: StoreCategoryService) {}
 
-  @Query(() => [StoreCategory])
+  @Query(() => [StoreCategoryWithItems])
   async getStoreByLanguage(
     @Args('language') language: LanguageCode,
-  ): Promise<StoreCategory[]> {
+  ): Promise<StoreCategoryWithItems[]> {
     return this.storeCategoryService.findByLanguage(language);
   }
 }

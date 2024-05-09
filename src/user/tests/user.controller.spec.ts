@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { StoreItemService } from '../store-item.service';
-import { StoreItemWithAdResolver } from '../store-item-with-ad.resolver';
+import { UserController } from '../user.controller';
+import { UserService } from '../user.service';
 import { FileUploadService } from '../../file-upload/file-upload.service';
 
-describe('StoreItemWithAdResolver', () => {
-  let resolver: StoreItemWithAdResolver;
+describe('UserController', () => {
+  let controller: UserController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [UserController],
       providers: [
-        StoreItemService,
-        StoreItemWithAdResolver,
+        UserService,
         {
-          provide: 'STORE_ITEM_SERVICE',
+          provide: 'USER_SERVICE',
           useValue: {},
         },
         {
@@ -23,10 +23,10 @@ describe('StoreItemWithAdResolver', () => {
       ],
     }).compile();
 
-    resolver = module.get<StoreItemWithAdResolver>(StoreItemWithAdResolver);
+    controller = module.get<UserController>(UserController);
   });
 
   it('should be defined', () => {
-    expect(resolver).toBeDefined();
+    expect(controller).toBeDefined();
   });
 });

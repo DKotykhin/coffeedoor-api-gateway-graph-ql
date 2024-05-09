@@ -9,13 +9,13 @@ export class UpdateOrderItemDto {
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
-  price?: number;
+  price: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
-  quantity?: number;
+  quantity: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
-  weight?: number;
+  weight: number;
 }

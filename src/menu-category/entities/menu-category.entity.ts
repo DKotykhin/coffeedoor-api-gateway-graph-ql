@@ -1,8 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { LanguageCode } from '../../common/types/enums';
 
-import { MenuItem } from '../../menu-item/entities/menu-item.entity';
-
 @ObjectType()
 export class MenuCategory {
   @Field()
@@ -25,7 +23,4 @@ export class MenuCategory {
 
   @Field(() => Int, { defaultValue: 0 })
   position: number;
-
-  @Field(() => [MenuItem], { nullable: true })
-  menuItems: MenuItem[];
 }

@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { StoreItemResolver } from '../store-item.resolver';
 import { StoreItemService } from '../store-item.service';
+import { FileUploadService } from '../../file-upload/file-upload.service';
 
 describe('StoreItemResolver', () => {
   let resolver: StoreItemResolver;
@@ -12,6 +14,10 @@ describe('StoreItemResolver', () => {
         StoreItemService,
         {
           provide: 'STORE_ITEM_SERVICE',
+          useValue: {},
+        },
+        {
+          provide: FileUploadService,
           useValue: {},
         },
       ],

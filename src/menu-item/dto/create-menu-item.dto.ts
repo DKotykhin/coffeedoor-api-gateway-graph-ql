@@ -19,8 +19,6 @@ import { LanguageCode } from '../../common/types/enums';
 @InputType()
 class MenuCategoryId {
   @Field()
-  @IsNotEmpty()
-  @IsString()
   @IsUUID()
   id: string;
 }
@@ -56,8 +54,8 @@ export class CreateMenuItemDto {
 
   @Field(() => MenuCategoryId)
   @IsDefined()
-  @IsNotEmptyObject()
   @IsObject()
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => MenuCategoryId)
   menuCategory: MenuCategoryId;

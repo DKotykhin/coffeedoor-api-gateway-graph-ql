@@ -6,26 +6,27 @@ import { GetUser } from '../auth/decorators/get-user.decorator';
 import { User } from '../auth/auth.pb';
 import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RoleTypes } from '../common/types/enums';
+import { StatusResponse } from '../common/entities/status-response.entity';
 
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
 import { CreateOrderItemDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { StatusResponse } from '../common/entities/status-response.entity';
+import { OrderWithItems } from './entities/order-with-items.entity';
 
 @Resolver()
 @UseGuards(GqlAuthGuard)
 export class OrderResolver {
   constructor(private readonly orderService: OrderService) {}
 
-  @Query(() => [Order])
-  async getOrdersByUserId(@GetUser() user: User): Promise<Order[]> {
+  @Query(() => [OrderWithItems])
+  async getOrdersByUserId(@GetUser() user: User): Promise<OrderWithItems[]> {
     return this.orderService.findOrdersByUserId(user.id);
   }
 
-  @Query(() => Order)
+  @Query(() => OrderWithItems)
   @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
-  async getOrderById(@Args('id') id: string): Promise<Order> {
+  async getOrderById(@Args('id') id: string): Promise<OrderWithItems> {
     return this.orderService.findOrderById(id);
   }
 

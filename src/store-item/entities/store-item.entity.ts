@@ -1,18 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 import { LanguageCode } from '../../common/types/enums';
-import { StoreItemImage } from '../../store-item-image/entities/store-item-image.entity';
 
 @ObjectType()
 export class StoreItem {
   @Field()
   slug: string;
-
-  @Field({ nullable: true })
-  createdAt?: Date;
-
-  @Field({ nullable: true })
-  updatedAt?: Date;
 
   @Field(() => LanguageCode)
   language: LanguageCode | string;
@@ -55,9 +48,6 @@ export class StoreItem {
 
   @Field({ defaultValue: 0 })
   position: number;
-
-  @Field(() => [StoreItemImage], { nullable: true })
-  images?: StoreItemImage[];
 
   @Field(() => [String], { nullable: true })
   imageUrl?: string[];

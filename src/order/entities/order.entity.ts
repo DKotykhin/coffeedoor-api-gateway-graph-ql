@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { OrderItem } from '../../order-item/entities/order-item.entity';
 import { DeliveryWay, OrderStatus } from '../../common/types/enums';
 
 @ObjectType()
@@ -37,7 +36,4 @@ export class Order {
 
   @Field({ defaultValue: 0 })
   totalQuantity: number;
-
-  @Field(() => [OrderItem], { nullable: true })
-  orderItem: OrderItem[];
 }
