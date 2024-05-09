@@ -9,7 +9,7 @@ export class AllMenuResolver {
   constructor(private readonly menuCategoryService: MenuCategoryService) {}
 
   @Query(() => [MenuCategory], { name: 'getMenuByLanguage' })
-  async findByLanguage(
+  async getMenuByLanguage(
     @Args('language') language: LanguageCode,
   ): Promise<MenuCategory[]> {
     return this.menuCategoryService.findByLanguage(language);

@@ -61,6 +61,11 @@ export class AuthService implements OnModuleInit {
   async signIn(signInDto: SignInDto): Promise<SignInResponse> {
     try {
       const user = await firstValueFrom(this.authService.signIn(signInDto));
+      if (user?.avatar) {
+        user.avatar = await this.fileUploadService.getImageUrl(
+          'avatar/' + user.avatar,
+        );
+      }
       const payload: JwtPayload = { email: user.email };
       const auth_token = this.jwtService.sign(payload);
       // console.log('auth_token:', auth_token);

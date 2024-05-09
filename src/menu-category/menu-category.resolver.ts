@@ -25,7 +25,7 @@ export class MenuCategoryResolver {
   }
 
   @Query(() => MenuCategory)
-  async getMenuCategory(@Args('id') id: string): Promise<MenuCategory> {
+  async getMenuCategoryById(@Args('id') id: string): Promise<MenuCategory> {
     return this.menuCategoryService.findById(id);
   }
 
