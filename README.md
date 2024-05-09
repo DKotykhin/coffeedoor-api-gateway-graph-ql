@@ -9,7 +9,7 @@ API GraphQL Gateway backend for CoffeeDoor online shop
 ## Technologies
 
 -   4 microservices: User, Menu, Order and Store + API Gateway
--   NestJS, gRPC, TypeORM, postgreSQL, Typescript, AWS S3, JWT, bcrypt, passport, sendGrid, Swagger, class-validator
+-   NestJS, gRPC, GraphQL, Typescript, AWS S3, JWT, bcrypt, passport, sendGrid, class-validator
 
 ## Features
 
@@ -31,6 +31,10 @@ API GraphQL Gateway backend for CoffeeDoor online shop
 ## Environment Variables
 
 To run this project locally, you will need to add the following environment variables to your .env file. See in .env.example in root directory
+
+## API URL
+
+API URL - http://localhost:4004/graphql
 
 ## Installation
 
