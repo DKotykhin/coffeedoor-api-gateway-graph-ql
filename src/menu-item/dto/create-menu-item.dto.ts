@@ -1,13 +1,6 @@
 import {
-  IsBoolean,
   IsDefined,
-  IsEnum,
-  IsNotEmpty,
   IsNotEmptyObject,
-  IsNumber,
-  IsObject,
-  IsOptional,
-  IsString,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
@@ -25,36 +18,25 @@ class MenuCategoryId {
 @InputType()
 export class CreateMenuItemDto {
   @Field(() => LanguageCode)
-  @IsEnum(LanguageCode)
   language: LanguageCode;
 
   @Field()
-  @IsNotEmpty()
-  @IsString()
   title: string;
 
   @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
   description: string;
 
   @Field()
-  @IsNotEmpty()
-  @IsString()
   price: string;
 
   @Field({ nullable: true, defaultValue: false })
-  @IsOptional()
-  @IsBoolean()
   hidden: boolean;
 
   @Field(() => Int, { defaultValue: 0 })
-  @IsNumber()
   position: number;
 
   @Field(() => MenuCategoryId)
   @IsDefined()
-  @IsObject()
   @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => MenuCategoryId)
