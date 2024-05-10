@@ -48,7 +48,4 @@ export class StoreItem {
 
   @Field({ defaultValue: 0 })
   position: number;
-
-  @Field(() => [String], { nullable: true })
-  imageUrl?: string[];
 }

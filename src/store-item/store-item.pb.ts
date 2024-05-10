@@ -8,7 +8,26 @@ export interface Empty {
 }
 
 export interface StoreItem {
-  imageUrl: string[] | undefined;
+  slug: string;
+  language: string;
+  title: string;
+  description: string;
+  details: string;
+  sortKey: string;
+  sortValue: string;
+  country: string;
+  tm: string;
+  price: number;
+  oldPrice: number;
+  discount: number;
+  weight: number;
+  hidden: boolean;
+  position: number;
+  category: Id | undefined;
+}
+
+export interface StoreItemWithImages {
+  imageUrl: string[];
   slug: string;
   language: string;
   title: string;
@@ -29,19 +48,18 @@ export interface StoreItem {
 }
 
 export interface StoreItemList {
-  storeItemList: StoreItem[];
+  storeItemList: StoreItemWithImages[];
 }
 
 export interface StoreItemWithAd {
-  storeItem: StoreItem | undefined;
-  adList: StoreItem[];
+  storeItem: StoreItemWithImages | undefined;
+  adList: StoreItemWithImages[];
 }
 
 export interface StoreItemImage {
   id: string;
   image: string;
   position: number;
-  storeItem: Slug | undefined;
 }
 
 export interface Id {
@@ -98,7 +116,7 @@ export const STORE_ITEM_PACKAGE_NAME = "storeItem";
 export interface StoreItemServiceClient {
   getStoreItemsByCategoryId(request: Id): Observable<StoreItemList>;
 
-  getStoreItemBySlug(request: Slug): Observable<StoreItem>;
+  getStoreItemBySlug(request: Slug): Observable<StoreItemWithImages>;
 
   getStoreItemBySlugWithAd(request: Slug): Observable<StoreItemWithAd>;
 
@@ -112,7 +130,9 @@ export interface StoreItemServiceClient {
 export interface StoreItemServiceController {
   getStoreItemsByCategoryId(request: Id): Promise<StoreItemList> | Observable<StoreItemList> | StoreItemList;
 
-  getStoreItemBySlug(request: Slug): Promise<StoreItem> | Observable<StoreItem> | StoreItem;
+  getStoreItemBySlug(
+    request: Slug,
+  ): Promise<StoreItemWithImages> | Observable<StoreItemWithImages> | StoreItemWithImages;
 
   getStoreItemBySlugWithAd(request: Slug): Promise<StoreItemWithAd> | Observable<StoreItemWithAd> | StoreItemWithAd;
 

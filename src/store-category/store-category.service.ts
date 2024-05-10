@@ -16,6 +16,7 @@ import {
   StatusResponse,
   StoreCategory,
   StoreCategoryServiceClient,
+  StoreCategoryWithItems,
 } from './store-category.pb';
 import { UpdateMenuCategoryRequest } from '../menu-category/menu-category.pb';
 import { StoreItemWithImageUrl } from '../store-item/dto/store-item-with-imageUrl.dto';
@@ -38,29 +39,37 @@ export class StoreCategoryService implements OnModuleInit {
     );
   }
 
-  async findByLanguage(language: LanguageCode): Promise<StoreCategory[]> {
+  async findImageUrls(
+    storeCategoryList: StoreCategoryWithItems[],
+  ): Promise<StoreCategoryWithItems[]> {
+    return await Promise.all(
+      storeCategoryList.map(async (category: StoreCategoryWithItems) => {
+        if (!category.storeItems) return category;
+        category.storeItems = await Promise.all(
+          category.storeItems.map(async (item: StoreItemWithImageUrl) => {
+            if (!item.images) return item;
+            item.imageUrl = await Promise.all(
+              item.images.map(async (image: StoreItemImage) => {
+                return await this.fileUploadService.getImageUrl(image?.image);
+              }),
+            );
+            return item;
+          }),
+        );
+      }),
+    );
+  }
+
+  async findByLanguage(
+    language: LanguageCode,
+  ): Promise<StoreCategoryWithItems[]> {
     try {
       const { storeCategoryList } = await firstValueFrom(
         this.storeCategoryService.getStoreCategoriesByLanguage({
           language,
         }),
       );
-      await Promise.all(
-        storeCategoryList.map(async (category: StoreCategory) => {
-          if (!category.storeItems) return category;
-          category.storeItems = await Promise.all(
-            category.storeItems.map(async (item: StoreItemWithImageUrl) => {
-              if (!item.images) return item;
-              item.imageUrl = await Promise.all(
-                item.images.map(async (image: StoreItemImage) => {
-                  return await this.fileUploadService.getImageUrl(image?.image);
-                }),
-              );
-              return item;
-            }),
-          );
-        }),
-      );
+      await this.findImageUrls(storeCategoryList);
       return storeCategoryList;
     } catch (error) {
       this.logger.error(error?.details);
@@ -71,11 +80,12 @@ export class StoreCategoryService implements OnModuleInit {
     }
   }
 
-  async findAll(): Promise<StoreCategory[]> {
+  async findAll(): Promise<StoreCategoryWithItems[]> {
     try {
       const { storeCategoryList } = await firstValueFrom(
         this.storeCategoryService.getAllStoreCategories({}),
       );
+      await this.findImageUrls(storeCategoryList);
       return storeCategoryList;
     } catch (error) {
       this.logger.error(error?.details);
@@ -86,11 +96,24 @@ export class StoreCategoryService implements OnModuleInit {
     }
   }
 
-  async findById(id: string): Promise<StoreCategory> {
+  async findById(id: string): Promise<StoreCategoryWithItems> {
     try {
-      return await firstValueFrom(
+      const storeCategory = await firstValueFrom(
         this.storeCategoryService.getStoreCategoryById({ id }),
       );
+      if (!storeCategory.storeItems) return storeCategory;
+      storeCategory.storeItems = await Promise.all(
+        storeCategory.storeItems.map(async (item: StoreItemWithImageUrl) => {
+          if (!item.images) return item;
+          item.imageUrl = await Promise.all(
+            item.images.map(async (image: StoreItemImage) => {
+              return await this.fileUploadService.getImageUrl(image?.image);
+            }),
+          );
+          return item;
+        }),
+      );
+      return storeCategory;
     } catch (error) {
       this.logger.error(error?.details);
       throw new HttpException(

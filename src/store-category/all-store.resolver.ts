@@ -1,7 +1,7 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 
-import { StoreCategoryService } from './store-category.service';
 import { LanguageCode } from '../common/types/enums';
+import { StoreCategoryService } from './store-category.service';
 import { StoreCategoryWithItems } from './entities/store-category-with-items.entity';
 
 @Resolver()

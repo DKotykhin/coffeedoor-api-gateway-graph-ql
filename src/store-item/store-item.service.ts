@@ -17,6 +17,7 @@ import {
   StoreItem,
   StoreItemServiceClient,
   StoreItemWithAd,
+  StoreItemWithImages,
   UpdateStoreItemRequest,
 } from './store-item.pb';
 
@@ -50,7 +51,7 @@ export class StoreItemService implements OnModuleInit {
     }
   }
 
-  async getStoreItemsByCategoryId(id: string): Promise<StoreItem[]> {
+  async getStoreItemsByCategoryId(id: string): Promise<StoreItemWithImages[]> {
     try {
       const { storeItemList } = await firstValueFrom(
         this.storeItemService.getStoreItemsByCategoryId({ id }),
@@ -65,7 +66,7 @@ export class StoreItemService implements OnModuleInit {
     }
   }
 
-  async getStoreItemBySlug(slug: string): Promise<StoreItem> {
+  async getStoreItemBySlug(slug: string): Promise<StoreItemWithImages> {
     try {
       const storeItem = await firstValueFrom(
         this.storeItemService.getStoreItemBySlug({ slug }),

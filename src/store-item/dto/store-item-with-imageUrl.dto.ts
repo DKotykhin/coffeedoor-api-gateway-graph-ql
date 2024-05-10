@@ -1,5 +1,5 @@
-import { StoreItem } from '../store-item.pb';
+import { StoreItemWithImages } from '../store-item.pb';
 
-export interface StoreItemWithImageUrl extends StoreItem {
+export interface StoreItemWithImageUrl extends StoreItemWithImages {
   imageUrl: string[];
 }
