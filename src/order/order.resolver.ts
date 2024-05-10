@@ -10,9 +10,9 @@ import { StatusResponse } from '../common/entities/status-response.entity';
 
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
+import { OrderWithItems } from './entities/order-with-items.entity';
 import { CreateOrderItemDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { OrderWithItems } from './entities/order-with-items.entity';
 
 @Resolver()
 @UseGuards(GqlAuthGuard)

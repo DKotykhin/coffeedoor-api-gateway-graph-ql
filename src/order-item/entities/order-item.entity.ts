@@ -21,5 +21,5 @@ export class OrderItem {
   quantity: number;
 
   @Field(() => Int, { nullable: true })
-  weight?: number;
+  weight: number;
 }
