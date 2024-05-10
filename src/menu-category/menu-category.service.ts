@@ -21,6 +21,7 @@ import {
   MenuCategoryServiceClient,
   StatusResponse,
 } from './menu-category.pb';
+import { MenuCategoryWithItems } from './entities/menu-category-with-items.entity';
 
 @Injectable()
 export class MenuCategoryService implements OnModuleInit {
@@ -37,7 +38,9 @@ export class MenuCategoryService implements OnModuleInit {
     );
   }
 
-  async findByLanguage(language: LanguageCode): Promise<MenuCategory[]> {
+  async findByLanguage(
+    language: LanguageCode,
+  ): Promise<MenuCategoryWithItems[]> {
     try {
       const { menuCategoryList } = await firstValueFrom(
         this.menuCategoryService.getMenuCategoriesByLanguage({
@@ -54,7 +57,7 @@ export class MenuCategoryService implements OnModuleInit {
     }
   }
 
-  async findAll(): Promise<MenuCategory[]> {
+  async findAll(): Promise<MenuCategoryWithItems[]> {
     try {
       const { menuCategoryList } = await firstValueFrom(
         this.menuCategoryService.getAllMenuCategories({}),
@@ -69,7 +72,7 @@ export class MenuCategoryService implements OnModuleInit {
     }
   }
 
-  async findById(id: string): Promise<MenuCategory> {
+  async findById(id: string): Promise<MenuCategoryWithItems> {
     try {
       return await firstValueFrom(
         this.menuCategoryService.getMenuCategoryById({ id }),

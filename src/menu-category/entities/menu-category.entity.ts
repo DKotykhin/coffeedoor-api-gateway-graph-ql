@@ -21,6 +21,6 @@ export class MenuCategory {
   @Field({ defaultValue: false })
   hidden: boolean;
 
-  @Field(() => Int, { defaultValue: 0 })
+  @Field(() => Int)
   position: number;
 }

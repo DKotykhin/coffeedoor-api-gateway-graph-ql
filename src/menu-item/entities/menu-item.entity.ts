@@ -21,6 +21,6 @@ export class MenuItem {
   @Field({ defaultValue: false })
   hidden: boolean;
 
-  @Field({ defaultValue: 0 })
+  @Field()
   position: number;
 }
