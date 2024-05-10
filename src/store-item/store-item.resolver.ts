@@ -11,6 +11,7 @@ import { StoreItem } from './entities/store-item.entity';
 import { CreateStoreItemDto } from './dto/create-store-item.dto';
 import { UpdateStoreItemDto } from './dto/update-store-item.dto';
 import { StatusResponse } from '../common/entities/status-response.entity';
+import { StoreItemWithImages } from './entities/store-item-with-images.entity';
 
 @Resolver()
 @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
@@ -18,14 +19,14 @@ import { StatusResponse } from '../common/entities/status-response.entity';
 export class StoreItemResolver {
   constructor(private readonly storeItemService: StoreItemService) {}
 
-  @Query(() => [StoreItem])
+  @Query(() => [StoreItemWithImages])
   async getStoreItemsByCategoryId(
     @Args('categoryId') categoryId: string,
   ): Promise<StoreItem[]> {
     return this.storeItemService.getStoreItemsByCategoryId(categoryId);
   }
 
-  @Query(() => StoreItem)
+  @Query(() => StoreItemWithImages)
   async getStoreItemBySlug(@Args('slug') slug: string): Promise<StoreItem> {
     return this.storeItemService.getStoreItemBySlug(slug);
   }

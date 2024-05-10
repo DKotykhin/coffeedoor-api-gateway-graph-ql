@@ -39,9 +39,36 @@ export class StoreItemService implements OnModuleInit {
 
   async findBySlugWithAd(slug: string): Promise<StoreItemWithAd> {
     try {
-      return await firstValueFrom(
+      const { storeItem, adList } = await firstValueFrom(
         this.storeItemService.getStoreItemBySlugWithAd({ slug }),
       );
+      if (storeItem.images?.length) {
+        storeItem.imageUrl = await Promise.all(
+          storeItem.images.map(async (image) => {
+            const imageUrl = await this.fileUploadService.getImageUrl(
+              image.image,
+            );
+            if (imageUrl) return imageUrl;
+          }),
+        );
+      }
+      if (adList.length) {
+        await Promise.all(
+          adList.map(async (ad) => {
+            if (ad.images?.length) {
+              ad.imageUrl = await Promise.all(
+                ad.images.map(async (image) => {
+                  const imageUrl = await this.fileUploadService.getImageUrl(
+                    image.image,
+                  );
+                  if (imageUrl) return imageUrl;
+                }),
+              );
+            }
+          }),
+        );
+      }
+      return { storeItem, adList };
     } catch (error) {
       this.logger.error(error?.details);
       throw new HttpException(
@@ -55,6 +82,21 @@ export class StoreItemService implements OnModuleInit {
     try {
       const { storeItemList } = await firstValueFrom(
         this.storeItemService.getStoreItemsByCategoryId({ id }),
+      );
+      await Promise.all(
+        storeItemList.map(async (storeItem) => {
+          if (storeItem.images?.length) {
+            storeItem.imageUrl = await Promise.all(
+              storeItem.images.map(async (image) => {
+                const imageUrl = await this.fileUploadService.getImageUrl(
+                  image.image,
+                );
+                if (imageUrl) return imageUrl;
+              }),
+            );
+            return storeItem;
+          }
+        }),
       );
       return storeItemList;
     } catch (error) {
@@ -72,13 +114,14 @@ export class StoreItemService implements OnModuleInit {
         this.storeItemService.getStoreItemBySlug({ slug }),
       );
       if (storeItem.images?.length) {
-        const imageUrlPromises = storeItem.images.map(async (image) => {
-          const imageUrl = await this.fileUploadService.getImageUrl(
-            image.image,
-          );
-          if (imageUrl) return imageUrl;
-        });
-        storeItem.imageUrl = await Promise.all(imageUrlPromises);
+        storeItem.imageUrl = await Promise.all(
+          storeItem.images.map(async (image) => {
+            const imageUrl = await this.fileUploadService.getImageUrl(
+              image.image,
+            );
+            if (imageUrl) return imageUrl;
+          }),
+        );
       }
       return storeItem;
     } catch (error) {

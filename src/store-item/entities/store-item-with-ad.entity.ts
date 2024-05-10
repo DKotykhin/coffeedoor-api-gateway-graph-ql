@@ -1,11 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { StoreItem } from './store-item.entity';
+import { StoreItemWithImages } from './store-item-with-images.entity';
 
 @ObjectType()
 export class StoreItemWithAd {
-  @Field(() => StoreItem, { nullable: true })
-  storeItem: StoreItem;
+  @Field(() => StoreItemWithImages, { nullable: true })
+  storeItem: StoreItemWithImages;
 
-  @Field(() => [StoreItem], { nullable: true })
-  adList: StoreItem[];
+  @Field(() => [StoreItemWithImages], { nullable: true })
+  adList: StoreItemWithImages[];
 }
