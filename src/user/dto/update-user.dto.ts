@@ -1,4 +1,4 @@
-import { IsString, Length, IsOptional } from 'class-validator';
+import { IsString, Length, IsOptional, IsMobilePhone } from 'class-validator';
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
@@ -22,6 +22,7 @@ export class UpdateUserDto {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  @Length(7, 12, { message: 'Phone must be between 7 and 12 characters' })
+  @Length(10, 13, { message: 'Phone must be between 10 and 13 characters' })
+  @IsMobilePhone('uk-UA')
   phoneNumber?: string;
 }
