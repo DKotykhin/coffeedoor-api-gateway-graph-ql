@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 
 export const errorCodeImplementation = (code: number | string): number => {
-  let httpCode = 500;
+  let httpCode: number;
   switch (+code) {
     case 1:
       httpCode = HttpStatus.UNPROCESSABLE_ENTITY;
@@ -20,6 +20,12 @@ export const errorCodeImplementation = (code: number | string): number => {
       break;
     case 7:
       httpCode = HttpStatus.FORBIDDEN;
+      break;
+    case 8:
+      httpCode = HttpStatus.TOO_MANY_REQUESTS;
+      break;
+    case 12:
+      httpCode = HttpStatus.NOT_IMPLEMENTED;
       break;
     case 13:
       httpCode = HttpStatus.INTERNAL_SERVER_ERROR;

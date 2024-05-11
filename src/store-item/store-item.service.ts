@@ -15,6 +15,7 @@ import {
   STORE_ITEM_SERVICE_NAME,
   StatusResponse,
   StoreItem,
+  StoreItemImage,
   StoreItemServiceClient,
   StoreItemWithAd,
   StoreItemWithImages,
@@ -44,7 +45,7 @@ export class StoreItemService implements OnModuleInit {
       );
       if (storeItem.images?.length) {
         storeItem.imageUrl = await Promise.all(
-          storeItem.images.map(async (image) => {
+          storeItem.images.map(async (image: StoreItemImage) => {
             const imageUrl = await this.fileUploadService.getImageUrl(
               image.image,
             );
@@ -54,10 +55,10 @@ export class StoreItemService implements OnModuleInit {
       }
       if (adList.length) {
         await Promise.all(
-          adList.map(async (ad) => {
-            if (ad.images?.length) {
-              ad.imageUrl = await Promise.all(
-                ad.images.map(async (image) => {
+          adList.map(async (storeItem: StoreItemWithImages) => {
+            if (storeItem.images?.length) {
+              storeItem.imageUrl = await Promise.all(
+                storeItem.images.map(async (image: StoreItemImage) => {
                   const imageUrl = await this.fileUploadService.getImageUrl(
                     image.image,
                   );
@@ -84,10 +85,10 @@ export class StoreItemService implements OnModuleInit {
         this.storeItemService.getStoreItemsByCategoryId({ id }),
       );
       await Promise.all(
-        storeItemList.map(async (storeItem) => {
+        storeItemList.map(async (storeItem: StoreItemWithImages) => {
           if (storeItem.images?.length) {
             storeItem.imageUrl = await Promise.all(
-              storeItem.images.map(async (image) => {
+              storeItem.images.map(async (image: StoreItemImage) => {
                 const imageUrl = await this.fileUploadService.getImageUrl(
                   image.image,
                 );
@@ -115,7 +116,7 @@ export class StoreItemService implements OnModuleInit {
       );
       if (storeItem.images?.length) {
         storeItem.imageUrl = await Promise.all(
-          storeItem.images.map(async (image) => {
+          storeItem.images.map(async (image: StoreItemImage) => {
             const imageUrl = await this.fileUploadService.getImageUrl(
               image.image,
             );
