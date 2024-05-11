@@ -5,7 +5,6 @@ import { User } from '../user/entities/user.entity';
 import { StatusResponse } from '../common/entities/status-response.entity';
 
 import { AuthService } from './auth.service';
-import { User as UserType } from './auth.pb';
 import { GetUser } from './decorators/get-user.decorator';
 import { EmailDto, SignInDto, SignUpDto } from './dto/auth.dto';
 import { NewPasswordDto } from './dto/new-password.dto';
@@ -18,12 +17,12 @@ export class AuthResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => User)
-  getUserByToken(@GetUser() user: Partial<User>): Promise<Partial<UserType>> {
+  getUserByToken(@GetUser() user: Partial<User>): Promise<Partial<User>> {
     return this.authService.getUserByToken(user);
   }
 
   @Mutation(() => User)
-  signUp(@Args('signUpDto') signUpDto: SignUpDto): Promise<Partial<UserType>> {
+  signUp(@Args('signUpDto') signUpDto: SignUpDto): Promise<Partial<User>> {
     return this.authService.signUp(signUpDto);
   }
 

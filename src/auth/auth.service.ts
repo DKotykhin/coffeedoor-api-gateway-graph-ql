@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { firstValueFrom } from 'rxjs';
 
 import { errorCodeImplementation } from '../utils/error-code-implementation';
+import { FileUploadService } from '../file-upload/file-upload.service';
 import {
   AUTH_SERVICE_NAME,
   AuthServiceClient,
@@ -18,9 +19,8 @@ import {
 } from './auth.pb';
 import { EmailDto, SignInDto, SignUpDto } from './dto/auth.dto';
 import { JwtPayload } from './dto/jwtPayload.dto';
-import { FileUploadService } from '../file-upload/file-upload.service';
-import { SignInResponse } from './entities/sign-in-response.entity';
 import { NewPasswordDto } from './dto/new-password.dto';
+import { SignInResponse } from './entities/sign-in-response.entity';
 
 @Injectable()
 export class AuthService implements OnModuleInit {

@@ -49,11 +49,10 @@ export class MenuCategoryService implements OnModuleInit {
       );
       return menuCategoryList;
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -64,11 +63,10 @@ export class MenuCategoryService implements OnModuleInit {
       );
       return menuCategoryList;
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -78,11 +76,10 @@ export class MenuCategoryService implements OnModuleInit {
         this.menuCategoryService.getMenuCategoryById({ id }),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -94,11 +91,10 @@ export class MenuCategoryService implements OnModuleInit {
         this.menuCategoryService.createMenuCategory(createMenuCategoryDto),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -112,11 +108,10 @@ export class MenuCategoryService implements OnModuleInit {
         }),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -130,11 +125,10 @@ export class MenuCategoryService implements OnModuleInit {
         ),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -144,11 +138,10 @@ export class MenuCategoryService implements OnModuleInit {
         this.menuCategoryService.deleteMenuCategory({ id }),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 }

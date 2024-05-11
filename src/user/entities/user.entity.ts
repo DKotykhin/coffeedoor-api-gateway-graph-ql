@@ -1,8 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 import { RoleTypes } from '../../common/types/enums';
-// import { EmailConfirm } from '../../auth/entities/email-confirm.entity';
-// import { ResetPassword } from '../../auth/entities/reset-password.entity';
 
 @ObjectType()
 export class User {
@@ -14,9 +12,6 @@ export class User {
 
   @Field()
   userName: string;
-
-  @Field({ nullable: true })
-  passwordHash?: string;
 
   @Field({ nullable: true })
   address?: string;
@@ -32,10 +27,4 @@ export class User {
 
   @Field(() => RoleTypes)
   role: RoleTypes | string;
-
-  // @Field(() => EmailConfirm, { nullable: true })
-  // emailConfirm?: EmailConfirm;
-
-  // @Field(() => ResetPassword, { nullable: true })
-  // resetPassword?: ResetPassword;
 }
