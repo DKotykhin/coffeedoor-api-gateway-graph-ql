@@ -14,17 +14,23 @@ export class User {
   userName: string;
 
   @Field({ nullable: true })
-  address?: string;
+  address: string;
 
   @Field({ nullable: true })
-  phoneNumber?: string;
+  phoneNumber: string;
 
   @Field({ nullable: true })
-  avatar?: string;
+  avatar: string;
 
   @Field({ defaultValue: false })
   isVerified: boolean;
 
   @Field(() => RoleTypes)
   role: RoleTypes | string;
+
+  @Field()
+  createdAt: string;
+
+  @Field()
+  updatedAt: string;
 }
