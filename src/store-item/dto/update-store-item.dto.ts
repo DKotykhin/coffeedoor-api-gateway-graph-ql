@@ -1,4 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsPositive } from 'class-validator';
 
 @InputType()
 export class UpdateStoreItemDto {
@@ -27,15 +28,18 @@ export class UpdateStoreItemDto {
   tm: string;
 
   @Field({ nullable: true })
+  @IsPositive()
   price: number;
 
   @Field({ nullable: true })
+  @IsPositive()
   oldPrice: number;
 
   @Field({ nullable: true })
   discount: number;
 
   @Field({ nullable: true })
+  @IsPositive()
   weight: number;
 
   @Field({ nullable: true })
@@ -45,5 +49,6 @@ export class UpdateStoreItemDto {
   hidden: boolean;
 
   @Field(() => Int, { nullable: true })
+  @IsPositive()
   position: number;
 }

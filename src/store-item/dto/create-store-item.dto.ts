@@ -1,6 +1,8 @@
 import {
   IsDefined,
+  IsEnum,
   IsNotEmptyObject,
+  IsPositive,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
@@ -21,6 +23,7 @@ export class CreateStoreItemDto {
   slug: string;
 
   @Field(() => LanguageCode)
+  @IsEnum(LanguageCode)
   language: LanguageCode;
 
   @Field()
@@ -45,15 +48,18 @@ export class CreateStoreItemDto {
   tm: string;
 
   @Field()
+  @IsPositive()
   price: number;
 
   @Field({ nullable: true })
+  @IsPositive()
   oldPrice: number;
 
   @Field({ nullable: true })
   discount: number;
 
   @Field({ nullable: true })
+  @IsPositive()
   weight: number;
 
   @Field({ nullable: true })
@@ -63,6 +69,7 @@ export class CreateStoreItemDto {
   hidden: boolean;
 
   @Field(() => Int, { defaultValue: 0 })
+  @IsPositive()
   position: number;
 
   @Field(() => StoreCategoryId)

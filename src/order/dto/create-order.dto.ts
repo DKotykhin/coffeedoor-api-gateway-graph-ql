@@ -1,5 +1,11 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { IsEnum, IsMobilePhone, IsString, Length } from 'class-validator';
+import {
+  IsEnum,
+  IsMobilePhone,
+  IsPositive,
+  IsString,
+  Length,
+} from 'class-validator';
 
 import { DeliveryWay, OrderStatus } from '../../common/types/enums';
 
@@ -51,12 +57,15 @@ class UserOrderItem {
   itemTitle: string;
 
   @Field(() => Int, { defaultValue: 0 })
+  @IsPositive()
   price: number;
 
   @Field(() => Int, { defaultValue: 0 })
+  @IsPositive()
   quantity: number;
 
   @Field(() => Int, { nullable: true })
+  @IsPositive()
   weight: number;
 }
 

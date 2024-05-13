@@ -10,6 +10,11 @@ import { firstValueFrom } from 'rxjs';
 
 import { LanguageCode } from '../common/types/enums';
 import { errorCodeImplementation } from '../utils/error-code-implementation';
+import { UpdateMenuCategoryRequest } from '../menu-category/menu-category.pb';
+import { StoreItemImage } from '../store-item-image/store-item-image.pb';
+import { FileUploadService } from '../file-upload/file-upload.service';
+import { StoreItemWithImages } from '../store-item/store-item.pb';
+
 import {
   CreateStoreCategoryRequest,
   STORE_CATEGORY_SERVICE_NAME,
@@ -18,10 +23,6 @@ import {
   StoreCategoryServiceClient,
   StoreCategoryWithItems,
 } from './store-category.pb';
-import { UpdateMenuCategoryRequest } from '../menu-category/menu-category.pb';
-import { StoreItemWithImageUrl } from '../store-item/dto/store-item-with-imageUrl.dto';
-import { StoreItemImage } from '../store-item-image/store-item-image.pb';
-import { FileUploadService } from '../file-upload/file-upload.service';
 
 @Injectable()
 export class StoreCategoryService implements OnModuleInit {
@@ -46,7 +47,7 @@ export class StoreCategoryService implements OnModuleInit {
       storeCategoryList.map(async (category: StoreCategoryWithItems) => {
         if (!category.storeItems) return category;
         category.storeItems = await Promise.all(
-          category.storeItems.map(async (item: StoreItemWithImageUrl) => {
+          category.storeItems.map(async (item: StoreItemWithImages) => {
             if (!item.images) return item;
             item.imageUrl = await Promise.all(
               item.images.map(async (image: StoreItemImage) => {
@@ -103,7 +104,7 @@ export class StoreCategoryService implements OnModuleInit {
       );
       if (!storeCategory.storeItems) return storeCategory;
       storeCategory.storeItems = await Promise.all(
-        storeCategory.storeItems.map(async (item: StoreItemWithImageUrl) => {
+        storeCategory.storeItems.map(async (item: StoreItemWithImages) => {
           if (!item.images) return item;
           item.imageUrl = await Promise.all(
             item.images.map(async (image: StoreItemImage) => {

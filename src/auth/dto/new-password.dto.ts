@@ -1,4 +1,4 @@
-import { IsString, Length, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, Length, Matches } from 'class-validator';
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
@@ -14,5 +14,6 @@ export class NewPasswordDto {
 
   @Field()
   @IsString()
+  @IsNotEmpty()
   token: string;
 }

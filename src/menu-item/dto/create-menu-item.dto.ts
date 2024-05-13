@@ -1,6 +1,7 @@
 import {
   IsDefined,
   IsNotEmptyObject,
+  IsPositive,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
@@ -33,6 +34,7 @@ export class CreateMenuItemDto {
   hidden: boolean;
 
   @Field(() => Int, { defaultValue: 0 })
+  @IsPositive()
   position: number;
 
   @Field(() => MenuCategoryId)

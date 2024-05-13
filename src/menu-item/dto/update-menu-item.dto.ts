@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsUUID } from 'class-validator';
+import { IsPositive, IsUUID } from 'class-validator';
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 import { CreateMenuItemDto } from './create-menu-item.dto';
@@ -23,5 +23,6 @@ export class UpdateMenuItemDto extends PartialType(CreateMenuItemDto) {
   hidden: boolean;
 
   @Field(() => Int, { nullable: true })
+  @IsPositive()
   position: number;
 }

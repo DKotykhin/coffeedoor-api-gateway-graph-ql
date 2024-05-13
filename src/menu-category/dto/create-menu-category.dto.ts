@@ -1,4 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsPositive } from 'class-validator';
 
 import { LanguageCode } from '../../common/types/enums';
 
@@ -20,5 +21,6 @@ export class CreateMenuCategoryDto {
   hidden: boolean;
 
   @Field(() => Int, { defaultValue: 0 })
+  @IsPositive()
   position: number;
 }

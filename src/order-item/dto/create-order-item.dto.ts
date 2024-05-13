@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import {
   IsDefined,
   IsNotEmptyObject,
+  IsPositive,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
@@ -26,12 +27,15 @@ export class CreateOrderItem {
   itemTitle: string;
 
   @Field(() => Int)
+  @IsPositive()
   price: number;
 
   @Field(() => Int)
+  @IsPositive()
   quantity: number;
 
   @Field(() => Int, { nullable: true })
+  @IsPositive()
   weight: number;
 
   @Field(() => OrderId)

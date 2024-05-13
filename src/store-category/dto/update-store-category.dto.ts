@@ -1,4 +1,4 @@
-import { IsUUID } from 'class-validator';
+import { IsPositive, IsUUID } from 'class-validator';
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
@@ -14,8 +14,9 @@ export class UpdateStoreCategoryDto {
   subtitle: string;
 
   @Field({ nullable: true })
-  hidden?: boolean;
+  hidden: boolean;
 
   @Field(() => Int, { nullable: true })
+  @IsPositive()
   position: number;
 }
