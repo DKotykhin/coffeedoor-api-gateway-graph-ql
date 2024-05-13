@@ -11,7 +11,7 @@ export class CreateMenuCategoryDto {
   @Field()
   title: string;
 
-  @Field()
+  @Field({ nullable: true })
   description: string;
 
   @Field({ nullable: true })
