@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { validate } from './utils/env.validator';
 import { AuthModule } from './auth/auth.module';
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
       driver: ApolloDriver,
       autoSchemaFile: true,
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     FileUploadModule,
     HealthCheckModule,
