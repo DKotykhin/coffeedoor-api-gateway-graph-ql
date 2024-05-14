@@ -73,11 +73,10 @@ export class StoreCategoryService implements OnModuleInit {
       await this.findImageUrls(storeCategoryList);
       return storeCategoryList;
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -89,11 +88,10 @@ export class StoreCategoryService implements OnModuleInit {
       await this.findImageUrls(storeCategoryList);
       return storeCategoryList;
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -116,11 +114,10 @@ export class StoreCategoryService implements OnModuleInit {
       );
       return storeCategory;
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -132,11 +129,10 @@ export class StoreCategoryService implements OnModuleInit {
         this.storeCategoryService.createStoreCategory(storeCategory),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -148,11 +144,10 @@ export class StoreCategoryService implements OnModuleInit {
         this.storeCategoryService.updateStoreCategory(storeCategory),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -162,11 +157,10 @@ export class StoreCategoryService implements OnModuleInit {
         this.storeCategoryService.deleteStoreCategory({ id }),
       );
     } catch (error) {
-      this.logger.error(error?.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 }

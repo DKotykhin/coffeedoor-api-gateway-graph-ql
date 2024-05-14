@@ -62,6 +62,32 @@ describe('User Controller (e2e)', () => {
     userId = res.body.data.signIn.user.id;
   });
 
+  it('should get user by token', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/graphql')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        query: `query GetUserByToken {
+          getUserByToken {
+            id
+            email
+            userName
+            address
+            phoneNumber
+            avatar
+            isVerified
+            role
+            createdAt
+            updatedAt
+          }
+        }`,
+      })
+      .expect(200);
+    expect(res.body.data.getUserByToken).toHaveProperty('id');
+    expect(res.body.data.getUserByToken.id).toBe(userId);
+    expect(res.body.data.getUserByToken.email).toBe(credentials.email);
+  });
+
   it('should get user by email', async () => {
     const res = await request(app.getHttpServer())
       .post('/graphql')
@@ -85,6 +111,23 @@ describe('User Controller (e2e)', () => {
       .expect(200);
     expect(res.body.data.getUserByEmail).toHaveProperty('id');
     expect(res.body.data.getUserByEmail.email).toBe(credentials.email);
+  });
+
+  it('should not get user by email - email error', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/graphql')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        query: `query GetUserByEmail {
+          getUserByEmail(email: { email: "kotykhin_d+111@ukr.net" }) {
+            id
+            email
+            userName
+          }
+        }`,
+      })
+      .expect(200);
+    expect(res.body.errors[0].message).toBe('User not found');
   });
 
   it('should get user by id', async () => {
@@ -126,5 +169,21 @@ describe('User Controller (e2e)', () => {
       })
       .expect(200);
     expect(res.body.data.confirmPassword).toHaveProperty('status', true);
+  });
+
+  it('should not confirm password - error', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/graphql')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        query: `mutation ConfirmPassword {
+          confirmPassword(password: { password: "Qq12345678" }) {
+            status
+            message
+          }
+        }`,
+      })
+      .expect(200);
+    expect(res.body.errors[0].message).toBe('Password not match');
   });
 });

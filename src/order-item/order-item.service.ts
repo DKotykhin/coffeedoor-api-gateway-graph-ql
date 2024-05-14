@@ -40,11 +40,10 @@ export class OrderItemService implements OnModuleInit {
       );
       return response;
     } catch (error) {
-      this.logger.error(error.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -55,11 +54,10 @@ export class OrderItemService implements OnModuleInit {
       );
       return orderItemList;
     } catch (error) {
-      this.logger.error(error.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -70,11 +68,10 @@ export class OrderItemService implements OnModuleInit {
       );
       return response;
     } catch (error) {
-      this.logger.error(error.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -85,11 +82,10 @@ export class OrderItemService implements OnModuleInit {
       );
       return response;
     } catch (error) {
-      this.logger.error(error.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 
@@ -100,11 +96,10 @@ export class OrderItemService implements OnModuleInit {
       );
       return response;
     } catch (error) {
-      this.logger.error(error.details);
-      throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
-      );
+      const code = errorCodeImplementation(error.code);
+      const message = error.details;
+      this.logger.error(`Error code: ${code} - ${message}`);
+      throw new HttpException(message, code);
     }
   }
 }

@@ -4,11 +4,11 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { EmailDto, PasswordDto } from '../auth/dto/auth.dto';
 import { GetUser } from '../auth/decorators/get-user.decorator';
+import { StatusResponse } from '../common/entities/status-response.entity';
 
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { StatusResponse } from '../common/entities/status-response.entity';
 
 @UseGuards(GqlAuthGuard)
 @Resolver()
