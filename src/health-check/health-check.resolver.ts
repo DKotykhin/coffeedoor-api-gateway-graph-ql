@@ -17,18 +17,6 @@ export class HealthCheckResolver {
 
   @Cron('*/1 * * * *')
   async handleCron() {
-    const healthCheck = await this.healthCheckService.checkHealth();
-    if (healthCheck.menuService.status !== 1) {
-      this.logger.error('Menu service health check failed');
-    }
-    if (healthCheck.storeService.status !== 1) {
-      this.logger.error('Store service health check failed');
-    }
-    if (healthCheck.userService.status !== 1) {
-      this.logger.error('User service health check failed');
-    }
-    if (healthCheck.orderService.status !== 1) {
-      this.logger.error('Order service health check failed');
-    }
+    await this.healthCheckService.checkHealth();
   }
 }

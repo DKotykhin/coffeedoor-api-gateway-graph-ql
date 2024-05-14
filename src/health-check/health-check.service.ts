@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
@@ -19,6 +19,7 @@ export class HealthCheckService implements OnModuleInit {
   private userService: HealthCheckResponse;
   private orderHealthCheckService: HealthCheckClient;
   private orderService: HealthCheckResponse;
+  protected readonly logger = new Logger(HealthCheckService.name);
   constructor(
     @Inject('MENU_HEALTH_CHECK_SERVICE')
     private readonly menuHealthCheckClient: ClientGrpc,
@@ -51,6 +52,7 @@ export class HealthCheckService implements OnModuleInit {
         this.menuHealthCheckService.check({}),
       );
     } catch (error) {
+      this.logger.error('Menu service health check failed');
       this.menuService = { status: 0 };
     }
 
@@ -59,6 +61,7 @@ export class HealthCheckService implements OnModuleInit {
         this.storeHealthCheckService.check({}),
       );
     } catch (error) {
+      this.logger.error('Store service health check failed');
       this.storeService = { status: 0 };
     }
 
@@ -67,6 +70,7 @@ export class HealthCheckService implements OnModuleInit {
         this.userHealthCheckService.check({}),
       );
     } catch (error) {
+      this.logger.error('User service health check failed');
       this.userService = { status: 0 };
     }
 
@@ -75,6 +79,7 @@ export class HealthCheckService implements OnModuleInit {
         this.orderHealthCheckService.check({}),
       );
     } catch (error) {
+      this.logger.error('Order service health check failed');
       this.orderService = { status: 0 };
     }
 
