@@ -47,8 +47,24 @@ describe('Common Controller (e2e)', () => {
       })
       .expect(200);
     expect(res.body.data.healthCheck).toHaveProperty('menuService');
+    expect(res.body.data.healthCheck.menuService).toHaveProperty(
+      'status',
+      'SERVING',
+    );
     expect(res.body.data.healthCheck).toHaveProperty('storeService');
+    expect(res.body.data.healthCheck.storeService).toHaveProperty(
+      'status',
+      'SERVING',
+    );
     expect(res.body.data.healthCheck).toHaveProperty('userService');
+    expect(res.body.data.healthCheck.userService).toHaveProperty(
+      'status',
+      'SERVING',
+    );
     expect(res.body.data.healthCheck).toHaveProperty('orderService');
+    expect(res.body.data.healthCheck.orderService).toHaveProperty(
+      'status',
+      'SERVING',
+    );
   });
 });

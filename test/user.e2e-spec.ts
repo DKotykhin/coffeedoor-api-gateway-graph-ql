@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 
 import { AppModule } from './../src/app.module';
@@ -18,6 +18,7 @@ describe('User Controller (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
   });
 
@@ -128,6 +129,23 @@ describe('User Controller (e2e)', () => {
       })
       .expect(200);
     expect(res.body.errors[0].message).toBe('User not found');
+  });
+
+  it('should not get user by email - validation error', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/graphql')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        query: `query GetUserByEmail {
+          getUserByEmail(email: { email: "kotykhin_d+1ukr.net" }) {
+            id
+            email
+            userName
+          }
+        }`,
+      })
+      .expect(200);
+    expect(res.body.errors[0].message).toBe('Bad Request Exception');
   });
 
   it('should get user by id', async () => {
