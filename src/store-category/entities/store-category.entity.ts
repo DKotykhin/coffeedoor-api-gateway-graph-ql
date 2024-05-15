@@ -18,4 +18,7 @@ export class StoreCategory {
 
   @Field({ defaultValue: false })
   hidden: boolean;
+
+  @Field()
+  position: number;
 }
