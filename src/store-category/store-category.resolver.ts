@@ -5,8 +5,7 @@ import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RoleTypes } from '../common/types/enums';
-import { StatusResponse } from '../common/entities/status-response.entity';
-import { IdDto } from '../common/dto/id.dto';
+import { IdDto, StatusResponse } from '../common/_index';
 
 import { StoreCategoryService } from './store-category.service';
 import { StoreCategory } from './entities/store-category.entity';

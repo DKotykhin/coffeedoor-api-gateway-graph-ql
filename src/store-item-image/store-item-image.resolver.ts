@@ -3,9 +3,9 @@ import { UseGuards } from '@nestjs/common';
 
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { RoleTypes } from '../common/types/enums';
 import { HasRoles } from '../auth/decorators/roles.decorator';
-import { StatusResponse } from '../common/entities/status-response.entity';
+import { RoleTypes } from '../common/types/enums';
+import { StatusResponse } from '../common/_index';
 
 import { StoreItemImageService } from './store-item-image.service';
 

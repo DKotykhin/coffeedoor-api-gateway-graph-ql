@@ -6,8 +6,7 @@ import { GetUser } from '../auth/decorators/get-user.decorator';
 import { User } from '../auth/auth.pb';
 import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RoleTypes } from '../common/types/enums';
-import { StatusResponse } from '../common/entities/status-response.entity';
-import { IdDto } from '../common/dto/id.dto';
+import { IdDto, StatusResponse } from '../common/_index';
 
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';

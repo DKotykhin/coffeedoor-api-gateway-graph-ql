@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 
-import { LanguageCode } from '../common/types/enums';
+import { LanguageDto } from '../common/_index';
 import { MenuCategoryService } from './menu-category.service';
 import { MenuCategoryWithItems } from './entities/menu-category-with-items.entity';
 
@@ -10,8 +10,8 @@ export class AllMenuResolver {
 
   @Query(() => [MenuCategoryWithItems], { name: 'getMenuByLanguage' })
   async getMenuByLanguage(
-    @Args('language') language: LanguageCode,
+    @Args('languageDto') languageDto: LanguageDto,
   ): Promise<MenuCategoryWithItems[]> {
-    return this.menuCategoryService.findByLanguage(language);
+    return this.menuCategoryService.findByLanguage(languageDto.language);
   }
 }

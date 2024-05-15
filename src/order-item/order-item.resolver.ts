@@ -5,8 +5,7 @@ import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { RoleTypes } from '../common/types/enums';
-import { StatusResponse } from '../common/entities/status-response.entity';
-import { IdDto } from '../common/dto/id.dto';
+import { IdDto, StatusResponse } from '../common/_index';
 
 import { OrderItemService } from './order-item.service';
 import { OrderItem } from './entities/order-item.entity';

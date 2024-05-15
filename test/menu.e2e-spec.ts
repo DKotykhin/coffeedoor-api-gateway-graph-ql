@@ -41,8 +41,8 @@ describe('Menu Controller (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/graphql')
       .send({
-        query: `query GetMenuByLanguage {
-          getMenuByLanguage(language: "UA") {
+        query: `query GetMenuByLanguage($languageDto: LanguageDto!) {
+          getMenuByLanguage(languageDto: $languageDto) {
             id
             language
             title
@@ -61,6 +61,7 @@ describe('Menu Controller (e2e)', () => {
             }
           }
         }`,
+        variables: { languageDto: { language: LanguageCode.UA } },
       })
       .expect(200);
     expect(res.body.data.getMenuByLanguage).toBeInstanceOf(Array);
@@ -166,11 +167,8 @@ describe('Menu Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `mutation UpdateMenuCategory {
-          updateMenuCategory(updateMenuCategoryDto: {
-            id: ${JSON.stringify(menuCategoryId)},
-            title: "Updated test title",
-          }) {
+        query: `mutation UpdateMenuCategory($updateMenuCategoryDto: UpdateMenuCategoryDto!) {
+          updateMenuCategory(updateMenuCategoryDto: $updateMenuCategoryDto) {
             id
             language
             title
@@ -180,6 +178,12 @@ describe('Menu Controller (e2e)', () => {
             position
           }
         }`,
+        variables: {
+          updateMenuCategoryDto: {
+            id: menuCategoryId,
+            title: 'Updated test title',
+          },
+        },
       })
       .expect(200);
     expect(res.body.data.updateMenuCategory).toHaveProperty(

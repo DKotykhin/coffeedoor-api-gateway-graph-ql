@@ -40,8 +40,8 @@ describe('Store Controller (e2e)', () => {
     const res = await request(app.getHttpServer())
       .post('/graphql')
       .send({
-        query: `query GetStoreByLanguage {
-          getStoreByLanguage(language: "UA") {
+        query: `query GetStoreByLanguage($languageDto: LanguageDto!) {
+          getStoreByLanguage(languageDto: $languageDto) {
             id
             language
             title
@@ -68,6 +68,7 @@ describe('Store Controller (e2e)', () => {
             }
           }
         }`,
+        variables: { languageDto: { language: LanguageCode.UA } },
       })
       .expect(200);
     expect(res.body.data.getStoreByLanguage).toBeInstanceOf(Array);

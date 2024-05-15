@@ -2,8 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { RoleTypes } from '../common/types/enums';
-import { IdDto } from '../common/dto/id.dto';
-import { StatusResponse } from '../common/entities/status-response.entity';
+import { IdDto, StatusResponse } from '../common/_index';
 import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
