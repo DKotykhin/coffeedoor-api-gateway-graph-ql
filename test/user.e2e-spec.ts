@@ -158,7 +158,7 @@ describe('User Controller (e2e)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send({
         query: `query GetUserByEmail($emailDto: EmailDto!) {
-          getUserByEmail(email: $emailDto) {
+          getUserByEmail(emailDto: $emailDto) {
             id
             email
             userName
@@ -184,7 +184,7 @@ describe('User Controller (e2e)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send({
         query: `query GetUserByEmail($emailDto: EmailDto!) {
-          getUserByEmail(email: $emailDto) {
+          getUserByEmail(emailDto: $emailDto) {
             id
             email
             userName
@@ -202,7 +202,7 @@ describe('User Controller (e2e)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send({
         query: `query GetUserByEmail($emailDto: EmailDto!) {
-          getUserByEmail(email: $emailDto) {
+          getUserByEmail(emailDto: $emailDto) {
             id
             email
             userName
@@ -219,8 +219,8 @@ describe('User Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `query GetUserById {
-          getUserById(id: ${JSON.stringify(userId)}) {
+        query: `query GetUserById($idDto: IdDto!) {
+          getUserById(idDto: $idDto) {
             id
             email
             userName
@@ -233,6 +233,7 @@ describe('User Controller (e2e)', () => {
             updatedAt
           }
         }`,
+        variables: { idDto: { id: userId } },
       })
       .expect(200);
     expect(res.body.data.getUserById).toHaveProperty('id');
@@ -245,7 +246,7 @@ describe('User Controller (e2e)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send({
         query: `mutation ConfirmPassword($passwordDto: PasswordDto!) {
-          confirmPassword(password: $passwordDto) {
+          confirmPassword(passwordDto: $passwordDto) {
             status
             message
           }
@@ -262,7 +263,7 @@ describe('User Controller (e2e)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send({
         query: `mutation ConfirmPassword($passwordDto: PasswordDto!) {
-          confirmPassword(password: $passwordDto) {
+          confirmPassword(passwordDto: $passwordDto) {
             status
             message
           }
@@ -283,7 +284,7 @@ describe('User Controller (e2e)', () => {
       .set('Authorization', `Bearer ${authToken}`)
       .send({
         query: `mutation ConfirmPassword($passwordDto: PasswordDto!) {
-          confirmPassword(password: $passwordDto) {
+          confirmPassword(passwordDto: $passwordDto) {
             status
             message
           }

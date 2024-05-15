@@ -37,18 +37,18 @@ export class AuthResolver {
   }
 
   @Mutation(() => StatusResponse)
-  resendEmail(@Args('email') emailDto: EmailDto): Promise<StatusResponse> {
+  resendEmail(@Args('emailDto') emailDto: EmailDto): Promise<StatusResponse> {
     return this.authService.resendEmail(emailDto);
   }
 
   @Mutation(() => StatusResponse)
-  resetPassword(@Args('email') emailDto: EmailDto): Promise<StatusResponse> {
+  resetPassword(@Args('emailDto') emailDto: EmailDto): Promise<StatusResponse> {
     return this.authService.resetPassword(emailDto);
   }
 
   @Mutation(() => StatusResponse)
   setNewPassword(
-    @Args('newPassword') newPasswordDto: NewPasswordDto,
+    @Args('newPasswordDto') newPasswordDto: NewPasswordDto,
   ): Promise<StatusResponse> {
     return this.authService.setNewPassword(newPasswordDto);
   }

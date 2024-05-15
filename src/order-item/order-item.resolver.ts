@@ -2,10 +2,11 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { HasRoles } from '../auth/decorators/roles.decorator';
-import { RoleTypes } from '../common/types/enums';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { RoleTypes } from '../common/types/enums';
 import { StatusResponse } from '../common/entities/status-response.entity';
+import { IdDto } from '../common/dto/id.dto';
 
 import { OrderItemService } from './order-item.service';
 import { OrderItem } from './entities/order-item.entity';
@@ -19,33 +20,33 @@ export class OrderItemResolver {
   constructor(private readonly orderItemService: OrderItemService) {}
 
   @Query(() => OrderItem)
-  async getOrderItemById(@Args('id') id: string): Promise<OrderItem> {
-    return this.orderItemService.findOrderItemById(id);
+  async getOrderItemById(@Args('idDto') idDto: IdDto): Promise<OrderItem> {
+    return this.orderItemService.findOrderItemById(idDto.id);
   }
 
   @Query(() => [OrderItem])
   async getOrderItemsByOrderId(
-    @Args('orderId') orderId: string,
+    @Args('orderIdDto') orderIdDto: IdDto,
   ): Promise<OrderItem[]> {
-    return this.orderItemService.findOrderItemsByOrderId(orderId);
+    return this.orderItemService.findOrderItemsByOrderId(orderIdDto.id);
   }
 
   @Mutation(() => OrderItem)
   async createOrderItem(
-    @Args('orderItem') orderItem: CreateOrderItem,
+    @Args('createOrderItem') createOrderItem: CreateOrderItem,
   ): Promise<OrderItem> {
-    return this.orderItemService.createOrderItem(orderItem);
+    return this.orderItemService.createOrderItem(createOrderItem);
   }
 
   @Mutation(() => OrderItem)
   async updateOrderItem(
-    @Args('orderItem') orderItem: UpdateOrderItemDto,
+    @Args('updateOrderItemDto') updateOrderItemDto: UpdateOrderItemDto,
   ): Promise<OrderItem> {
-    return this.orderItemService.updateOrderItem(orderItem);
+    return this.orderItemService.updateOrderItem(updateOrderItemDto);
   }
 
   @Mutation(() => StatusResponse)
-  async deleteOrderItem(@Args('id') id: string): Promise<StatusResponse> {
-    return this.orderItemService.deleteOrderItem(id);
+  async deleteOrderItem(@Args('idDto') idDto: IdDto): Promise<StatusResponse> {
+    return this.orderItemService.deleteOrderItem(idDto.id);
   }
 }

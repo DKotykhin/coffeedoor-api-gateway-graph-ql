@@ -2,10 +2,11 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { HasRoles } from '../auth/decorators/roles.decorator';
-import { RoleTypes } from '../common/types/enums';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { RoleTypes } from '../common/types/enums';
 import { StatusResponse } from '../common/entities/status-response.entity';
+import { IdDto } from '../common/dto/id.dto';
 
 import { MenuItemService } from './menu-item.service';
 import { MenuItem } from './entities/menu-item.entity';
@@ -20,13 +21,15 @@ export class MenuItemResolver {
   constructor(private readonly menuItemService: MenuItemService) {}
 
   @Query(() => [MenuItem])
-  async getMenuItemsByCategoryId(@Args('id') id: string): Promise<MenuItem[]> {
-    return this.menuItemService.findAllByCategoryId(id);
+  async getMenuItemsByCategoryId(
+    @Args('idDto') idDto: IdDto,
+  ): Promise<MenuItem[]> {
+    return this.menuItemService.findAllByCategoryId(idDto.id);
   }
 
   @Query(() => MenuItem)
-  async getMenuItemById(@Args('id') id: string): Promise<MenuItem> {
-    return this.menuItemService.findById(id);
+  async getMenuItemById(@Args('idDto') idDto: IdDto): Promise<MenuItem> {
+    return this.menuItemService.findById(idDto.id);
   }
 
   @Mutation(() => MenuItem)
@@ -52,7 +55,7 @@ export class MenuItemResolver {
   }
 
   @Mutation(() => StatusResponse)
-  async deleteMenuItem(@Args('id') id: string): Promise<StatusResponse> {
-    return this.menuItemService.remove(id);
+  async deleteMenuItem(@Args('idDto') idDto: IdDto): Promise<StatusResponse> {
+    return this.menuItemService.remove(idDto.id);
   }
 }

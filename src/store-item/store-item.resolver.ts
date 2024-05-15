@@ -3,14 +3,15 @@ import { UseGuards } from '@nestjs/common';
 
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { RoleTypes } from '../common/types/enums';
 import { HasRoles } from '../auth/decorators/roles.decorator';
+import { RoleTypes } from '../common/types/enums';
+import { IdDto } from '../common/dto/id.dto';
+import { StatusResponse } from '../common/entities/status-response.entity';
 
 import { StoreItemService } from './store-item.service';
 import { StoreItem } from './entities/store-item.entity';
 import { CreateStoreItemDto } from './dto/create-store-item.dto';
 import { UpdateStoreItemDto } from './dto/update-store-item.dto';
-import { StatusResponse } from '../common/entities/status-response.entity';
 import { StoreItemWithImages } from './entities/store-item-with-images.entity';
 
 @Resolver()
@@ -21,9 +22,9 @@ export class StoreItemResolver {
 
   @Query(() => [StoreItemWithImages])
   async getStoreItemsByCategoryId(
-    @Args('categoryId') categoryId: string,
+    @Args('categoryIdDto') categoryIdDto: IdDto,
   ): Promise<StoreItem[]> {
-    return this.storeItemService.getStoreItemsByCategoryId(categoryId);
+    return this.storeItemService.getStoreItemsByCategoryId(categoryIdDto.id);
   }
 
   @Query(() => StoreItemWithImages)

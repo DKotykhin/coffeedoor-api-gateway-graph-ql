@@ -9,6 +9,7 @@ import { StatusResponse } from '../common/entities/status-response.entity';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { IdDto } from '../common/dto/id.dto';
 
 @UseGuards(GqlAuthGuard)
 @Resolver()
@@ -16,13 +17,13 @@ export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query(() => User)
-  async getUserByEmail(@Args('email') emailDto: EmailDto): Promise<User> {
+  async getUserByEmail(@Args('emailDto') emailDto: EmailDto): Promise<User> {
     return this.userService.getUserByEmail(emailDto.email);
   }
 
   @Query(() => User)
-  async getUserById(@Args('id') id: string): Promise<User> {
-    return this.userService.getUserById(id);
+  async getUserById(@Args('idDto') idDto: IdDto): Promise<User> {
+    return this.userService.getUserById(idDto.id);
   }
 
   @Mutation(() => User)
@@ -40,7 +41,7 @@ export class UserResolver {
 
   @Mutation(() => StatusResponse)
   async confirmPassword(
-    @Args('password') passwordDto: PasswordDto,
+    @Args('passwordDto') passwordDto: PasswordDto,
     @GetUser() user: User,
   ): Promise<StatusResponse> {
     return this.userService.confirmPassword(user.id, passwordDto.password);
@@ -48,14 +49,14 @@ export class UserResolver {
 
   @Mutation(() => StatusResponse)
   async changePassword(
-    @Args('password') passwordDto: PasswordDto,
+    @Args('passwordDto') passwordDto: PasswordDto,
     @GetUser() user: User,
   ): Promise<StatusResponse> {
     return this.userService.changePassword(user.id, passwordDto.password);
   }
 
   @Mutation(() => StatusResponse)
-  async deleteAvatar(@Args('id') id: string): Promise<StatusResponse> {
-    return this.userService.deleteAvatar(id);
+  async deleteAvatar(@Args('idDto') idDto: IdDto): Promise<StatusResponse> {
+    return this.userService.deleteAvatar(idDto.id);
   }
 }

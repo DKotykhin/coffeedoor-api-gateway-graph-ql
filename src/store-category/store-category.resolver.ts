@@ -3,15 +3,16 @@ import { UseGuards } from '@nestjs/common';
 
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { RoleTypes } from '../common/types/enums';
 import { HasRoles } from '../auth/decorators/roles.decorator';
+import { RoleTypes } from '../common/types/enums';
+import { StatusResponse } from '../common/entities/status-response.entity';
+import { IdDto } from '../common/dto/id.dto';
 
 import { StoreCategoryService } from './store-category.service';
 import { StoreCategory } from './entities/store-category.entity';
 import { StoreCategoryWithItems } from './entities/store-category-with-items.entity';
 import { CreateStoreCategoryDto } from './dto/create-store-category.dto';
 import { UpdateStoreCategoryDto } from './dto/update-store-category.dto';
-import { StatusResponse } from '../common/entities/status-response.entity';
 
 @Resolver()
 @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
@@ -26,9 +27,9 @@ export class StoreCategoryResolver {
 
   @Query(() => StoreCategoryWithItems)
   async getStoreCategoryById(
-    @Args('id') id: string,
+    @Args('idDto') idDto: IdDto,
   ): Promise<StoreCategoryWithItems> {
-    return this.storeCategoryService.findById(id);
+    return this.storeCategoryService.findById(idDto.id);
   }
 
   @Mutation(() => StoreCategory)
@@ -48,7 +49,9 @@ export class StoreCategoryResolver {
   }
 
   @Mutation(() => StatusResponse)
-  async deleteStoreCategory(@Args('id') id: string): Promise<StatusResponse> {
-    return this.storeCategoryService.delete(id);
+  async deleteStoreCategory(
+    @Args('idDto') idDto: IdDto,
+  ): Promise<StatusResponse> {
+    return this.storeCategoryService.delete(idDto.id);
   }
 }

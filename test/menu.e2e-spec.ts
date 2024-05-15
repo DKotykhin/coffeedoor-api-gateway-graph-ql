@@ -143,8 +143,8 @@ describe('Menu Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `query GetMenuCategoryById {
-          getMenuCategoryById(id: ${JSON.stringify(menuCategoryId)}) {
+        query: `query GetMenuCategoryById($idDto: IdDto!) {
+          getMenuCategoryById(idDto: $idDto) {
             id
             language
             title
@@ -154,6 +154,7 @@ describe('Menu Controller (e2e)', () => {
             position
           }
         }`,
+        variables: { idDto: { id: menuCategoryId } },
       })
       .expect(200);
     expect(res.body.data.getMenuCategoryById).toHaveProperty('id');
@@ -196,11 +197,12 @@ describe('Menu Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `mutation DeleteMenuCategory {
-          deleteMenuCategory(id: ${JSON.stringify(menuCategoryId)}) {
+        query: `mutation DeleteMenuCategory($idDto: IdDto!) {
+          deleteMenuCategory(idDto: $idDto) {
             status
           }
         }`,
+        variables: { idDto: { id: menuCategoryId } },
       })
       .expect(200);
     expect(res.body.data.deleteMenuCategory).toHaveProperty('status', true);
@@ -211,8 +213,8 @@ describe('Menu Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `query GetMenuCategoryById {
-          getMenuCategoryById(id: ${JSON.stringify(menuCategoryId)}) {
+        query: `query GetMenuCategoryById($idDto: IdDto!) {
+          getMenuCategoryById(idDto: $idDto) {
             id
             language
             title
@@ -222,6 +224,7 @@ describe('Menu Controller (e2e)', () => {
             position
           }
         }`,
+        variables: { idDto: { id: menuCategoryId } },
       })
       .expect(200);
     expect(res.body.errors[0].message).toBe('Menu category not found');

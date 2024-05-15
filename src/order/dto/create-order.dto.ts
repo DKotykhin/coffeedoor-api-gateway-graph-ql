@@ -70,7 +70,7 @@ class UserOrderItem {
 }
 
 @InputType()
-export class CreateOrderItemDto {
+export class CreateOrderDto {
   @Field(() => UserOrder)
   userOrder: UserOrder;
 

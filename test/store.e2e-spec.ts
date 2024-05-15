@@ -169,8 +169,8 @@ describe('Store Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `query GetStoreCategoryById {
-          getStoreCategoryById(id: ${JSON.stringify(storeCategoryId)}) {
+        query: `query GetStoreCategoryById($idDto: IdDto!) {
+          getStoreCategoryById(idDto: $idDto) {
             id
             language
             title
@@ -179,6 +179,7 @@ describe('Store Controller (e2e)', () => {
             position
           }
         }`,
+        variables: { idDto: { id: storeCategoryId } },
       })
       .expect(200);
     expect(res.body.data.getStoreCategoryById).toHaveProperty(
@@ -222,11 +223,12 @@ describe('Store Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `mutation DeleteStoreCategory {
-          deleteStoreCategory(id: ${JSON.stringify(storeCategoryId)}) {
+        query: `mutation DeleteStoreCategory($idDto: IdDto!) {
+          deleteStoreCategory(idDto: $idDto) {
             status
           }
         }`,
+        variables: { idDto: { id: storeCategoryId } },
       })
       .expect(200);
     expect(res.body.data.deleteStoreCategory).toHaveProperty('status', true);
@@ -237,8 +239,8 @@ describe('Store Controller (e2e)', () => {
       .post('/graphql')
       .set('Authorization', `Bearer ${authToken}`)
       .send({
-        query: `query GetStoreCategoryById {
-          getStoreCategoryById(id: ${JSON.stringify(storeCategoryId)}) {
+        query: `query GetStoreCategoryById($idDto: IdDto!) {
+          getStoreCategoryById(idDto: $idDto) {
             id
             language
             title
@@ -247,6 +249,7 @@ describe('Store Controller (e2e)', () => {
             position
           }
         }`,
+        variables: { idDto: { id: storeCategoryId } },
       })
       .expect(200);
     expect(res.body.errors[0].message).toBe('Store category not found');

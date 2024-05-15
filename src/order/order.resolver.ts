@@ -7,11 +7,12 @@ import { User } from '../auth/auth.pb';
 import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RoleTypes } from '../common/types/enums';
 import { StatusResponse } from '../common/entities/status-response.entity';
+import { IdDto } from '../common/dto/id.dto';
 
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
 import { OrderWithItems } from './entities/order-with-items.entity';
-import { CreateOrderItemDto } from './dto/create-order.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Resolver()
@@ -26,19 +27,19 @@ export class OrderResolver {
 
   @Query(() => OrderWithItems)
   @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
-  async getOrderById(@Args('id') id: string): Promise<OrderWithItems> {
-    return this.orderService.findOrderById(id);
+  async getOrderById(@Args('idDto') idDto: IdDto): Promise<OrderWithItems> {
+    return this.orderService.findOrderById(idDto.id);
   }
 
   @Mutation(() => Order)
   async createOrder(
     @GetUser() user: User,
-    @Args('order') order: CreateOrderItemDto,
+    @Args('createOrderDto') createOrderDto: CreateOrderDto,
   ): Promise<Order> {
     return this.orderService.createOrder({
-      ...order,
+      ...createOrderDto,
       userOrder: {
-        ...order.userOrder,
+        ...createOrderDto.userOrder,
         userId: user.id,
       },
     });
@@ -46,13 +47,15 @@ export class OrderResolver {
 
   @Mutation(() => Order)
   @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
-  async updateOrder(@Args('order') order: UpdateOrderDto): Promise<Order> {
-    return this.orderService.updateOrder(order);
+  async updateOrder(
+    @Args('updateOrderDto') updateOrderDto: UpdateOrderDto,
+  ): Promise<Order> {
+    return this.orderService.updateOrder(updateOrderDto);
   }
 
   @Mutation(() => StatusResponse)
   @HasRoles(RoleTypes.ADMIN, RoleTypes.SUBADMIN)
-  async deleteOrder(@Args('id') id: string): Promise<StatusResponse> {
-    return this.orderService.deleteOrder(id);
+  async deleteOrder(@Args('idDto') idDto: IdDto): Promise<StatusResponse> {
+    return this.orderService.deleteOrder(idDto.id);
   }
 }

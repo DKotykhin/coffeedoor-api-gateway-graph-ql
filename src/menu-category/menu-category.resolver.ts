@@ -2,6 +2,8 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { RoleTypes } from '../common/types/enums';
+import { IdDto } from '../common/dto/id.dto';
+import { StatusResponse } from '../common/entities/status-response.entity';
 import { HasRoles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
@@ -11,7 +13,6 @@ import { MenuCategory } from './entities/menu-category.entity';
 import { CreateMenuCategoryDto } from './dto/create-menu-category.dto';
 import { UpdateMenuCategoryDto } from './dto/update-menu-category.dto';
 import { ChangeMenuCategoryPositionDto } from './dto/change-menu-category-position.dto';
-import { StatusResponse } from '../common/entities/status-response.entity';
 import { MenuCategoryWithItems } from './entities/menu-category-with-items.entity';
 
 @Resolver()
@@ -27,9 +28,9 @@ export class MenuCategoryResolver {
 
   @Query(() => MenuCategoryWithItems)
   async getMenuCategoryById(
-    @Args('id') id: string,
+    @Args('idDto') idDto: IdDto,
   ): Promise<MenuCategoryWithItems> {
-    return this.menuCategoryService.findById(id);
+    return this.menuCategoryService.findById(idDto.id);
   }
 
   @Mutation(() => MenuCategory)
@@ -57,7 +58,9 @@ export class MenuCategoryResolver {
   }
 
   @Mutation(() => StatusResponse)
-  async deleteMenuCategory(@Args('id') id: string): Promise<StatusResponse> {
-    return this.menuCategoryService.remove(id);
+  async deleteMenuCategory(
+    @Args('idDto') idDto: IdDto,
+  ): Promise<StatusResponse> {
+    return this.menuCategoryService.remove(idDto.id);
   }
 }
