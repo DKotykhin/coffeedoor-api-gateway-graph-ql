@@ -5,20 +5,15 @@ import { firstValueFrom } from 'rxjs';
 import {
   HEALTH_CHECK_SERVICE_NAME,
   HealthCheckClient,
-  HealthCheckResponse,
 } from './health-check.pb';
 import { HealthCheck } from './entities/health-check.entity';
 
 @Injectable()
 export class HealthCheckService implements OnModuleInit {
   private menuHealthCheckService: HealthCheckClient;
-  private menuService: HealthCheckResponse;
   private storeHealthCheckService: HealthCheckClient;
-  private storeService: HealthCheckResponse;
   private userHealthCheckService: HealthCheckClient;
-  private userService: HealthCheckResponse;
   private orderHealthCheckService: HealthCheckClient;
-  private orderService: HealthCheckResponse;
   protected readonly logger = new Logger(HealthCheckService.name);
   constructor(
     @Inject('MENU_HEALTH_CHECK_SERVICE')
@@ -47,47 +42,31 @@ export class HealthCheckService implements OnModuleInit {
   }
 
   async checkHealth(): Promise<HealthCheck> {
-    try {
-      this.menuService = await firstValueFrom(
-        this.menuHealthCheckService.check({}),
-      );
-    } catch (error) {
-      this.logger.error('Menu service health check failed');
-      this.menuService = { status: 0 };
-    }
+    const checkServiceHealth = async (
+      service: HealthCheckClient,
+      serviceName: string,
+    ) => {
+      try {
+        return await firstValueFrom(service.check({}));
+      } catch (error) {
+        this.logger.error(`${serviceName} service health check failed`);
+        return { status: 0 };
+      }
+    };
 
-    try {
-      this.storeService = await firstValueFrom(
-        this.storeHealthCheckService.check({}),
-      );
-    } catch (error) {
-      this.logger.error('Store service health check failed');
-      this.storeService = { status: 0 };
-    }
-
-    try {
-      this.userService = await firstValueFrom(
-        this.userHealthCheckService.check({}),
-      );
-    } catch (error) {
-      this.logger.error('User service health check failed');
-      this.userService = { status: 0 };
-    }
-
-    try {
-      this.orderService = await firstValueFrom(
-        this.orderHealthCheckService.check({}),
-      );
-    } catch (error) {
-      this.logger.error('Order service health check failed');
-      this.orderService = { status: 0 };
-    }
+    const [menuService, storeService, userService, orderService] =
+      await Promise.all([
+        checkServiceHealth(this.menuHealthCheckService, 'Menu'),
+        checkServiceHealth(this.storeHealthCheckService, 'Store'),
+        checkServiceHealth(this.userHealthCheckService, 'User'),
+        checkServiceHealth(this.orderHealthCheckService, 'Order'),
+      ]);
 
     return {
-      menuService: this.menuService,
-      userService: this.userService,
-      storeService: this.storeService,
-      orderService: this.orderService,
+      menuService,
+      userService,
+      storeService,
+      orderService,
     };
   }
 }
