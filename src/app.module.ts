@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CacheModule } from '@nestjs/cache-manager';
 
 import { validate } from './utils/env.validator';
 import { AuthModule } from './auth/auth.module';
@@ -27,6 +28,10 @@ import { UserModule } from './user/user.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 10 * 1000,
     }),
     ScheduleModule.forRoot(),
     AuthModule,

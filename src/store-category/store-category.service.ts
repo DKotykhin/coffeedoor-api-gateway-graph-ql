@@ -7,6 +7,8 @@ import {
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 import { LanguageCode } from '../common/types/enums';
 import { errorCodeImplementation } from '../utils/error-code-implementation';
@@ -32,6 +34,7 @@ export class StoreCategoryService implements OnModuleInit {
     @Inject('STORE_CATEGORY_SERVICE')
     private readonly storeCategoryServiceClient: ClientGrpc,
     private readonly fileUploadService: FileUploadService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   onModuleInit() {
@@ -65,12 +68,23 @@ export class StoreCategoryService implements OnModuleInit {
     language: LanguageCode,
   ): Promise<StoreCategoryWithItems[]> {
     try {
+      const storeCategory: {
+        language: LanguageCode;
+        storeCategoryList: StoreCategoryWithItems[];
+      } = await this.cacheManager.get('storeCategory');
+      if (storeCategory && storeCategory.language === language) {
+        return storeCategory.storeCategoryList;
+      }
       const { storeCategoryList } = await firstValueFrom(
         this.storeCategoryService.getStoreCategoriesByLanguage({
           language,
         }),
       );
       await this.findImageUrls(storeCategoryList);
+      await this.cacheManager.set('storeCategory', {
+        language,
+        storeCategoryList,
+      });
       return storeCategoryList;
     } catch (error) {
       const code = errorCodeImplementation(error.code);
