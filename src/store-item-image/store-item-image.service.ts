@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -19,7 +18,6 @@ import { FileUploadService } from '../file-upload/file-upload.service';
 @Injectable()
 export class StoreItemImageService implements OnModuleInit {
   private storeItemImageService: StoreItemImageServiceClient;
-  protected readonly logger = new Logger(StoreItemImageService.name);
   constructor(
     @Inject('STORE_ITEM_IMAGE_SERVICE')
     private readonly storeItemImageServiceClient: ClientGrpc,
@@ -57,8 +55,9 @@ export class StoreItemImageService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemImage: upload',
+      });
     }
   }
 
@@ -74,8 +73,9 @@ export class StoreItemImageService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemImage: delete',
+      });
     }
   }
 }

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   DeleteObjectCommand,
@@ -13,9 +13,8 @@ import * as crypto from 'crypto';
 @Injectable()
 export class FileUploadService {
   constructor(private readonly configService: ConfigService) {}
-  protected readonly logger = new Logger(FileUploadService.name);
 
-  s3 = new S3Client({
+  private readonly s3Client = new S3Client({
     credentials: {
       accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
       secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
@@ -29,7 +28,7 @@ export class FileUploadService {
       Key: fileKey,
     };
     const command = new GetObjectCommand(params);
-    const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 });
+    const url = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
 
     return url;
   }
@@ -39,7 +38,7 @@ export class FileUploadService {
       const fileName = id + '-' + avatar.fieldname + '.webp';
       const avatarPath = `avatar/${fileName}`;
 
-      const fileBuffer = await sharp(avatar.buffer)
+      const fileBuffer: Buffer = await sharp(avatar.buffer)
         .webp()
         .resize(200)
         .toBuffer();
@@ -51,15 +50,16 @@ export class FileUploadService {
         ContentType: 'image/webp',
       };
       const command = new PutObjectCommand(params);
-
-      await this.s3.send(command);
+      await this.s3Client.send(command);
 
       return fileName;
     } catch (err) {
-      this.logger.error(err.message);
       throw new HttpException(
         "Can't upload avatar",
         HttpStatus.INTERNAL_SERVER_ERROR,
+        {
+          cause: 'FileUploadService: uploadAvatar',
+        },
       );
     }
   }
@@ -86,15 +86,16 @@ export class FileUploadService {
         ContentType: 'image/webp',
       };
       const command = new PutObjectCommand(params);
-
-      await this.s3.send(command);
+      await this.s3Client.send(command);
 
       return storePath;
     } catch (err) {
-      this.logger.error(err.message);
       throw new HttpException(
         "Can't upload store image",
         HttpStatus.INTERNAL_SERVER_ERROR,
+        {
+          cause: 'FileUploadService: uploadStoreImage',
+        },
       );
     }
   }
@@ -106,11 +107,14 @@ export class FileUploadService {
     };
     const command = new DeleteObjectCommand(params);
     try {
-      await this.s3.send(command);
+      await this.s3Client.send(command);
     } catch (error) {
       throw new HttpException(
         "Can't delete image",
         HttpStatus.INTERNAL_SERVER_ERROR,
+        {
+          cause: 'FileUploadService: deleteImage',
+        },
       );
     }
 

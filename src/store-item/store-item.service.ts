@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -25,7 +24,6 @@ import {
 @Injectable()
 export class StoreItemService implements OnModuleInit {
   private storeItemService: StoreItemServiceClient;
-  protected readonly logger = new Logger(StoreItemService.name);
   constructor(
     @Inject('STORE_ITEM_SERVICE')
     private readonly storeItemServiceClient: ClientGrpc,
@@ -73,8 +71,9 @@ export class StoreItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemService: findBySlugWithAd',
+      });
     }
   }
 
@@ -102,8 +101,9 @@ export class StoreItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemService: getStoreItemsByCategoryId',
+      });
     }
   }
 
@@ -126,8 +126,9 @@ export class StoreItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemService: getStoreItemBySlug',
+      });
     }
   }
 
@@ -139,8 +140,9 @@ export class StoreItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemService: createStoreItem',
+      });
     }
   }
 
@@ -152,8 +154,9 @@ export class StoreItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemService: updateStoreItem',
+      });
     }
   }
 
@@ -165,8 +168,9 @@ export class StoreItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreItemService: deleteStoreItem',
+      });
     }
   }
 }

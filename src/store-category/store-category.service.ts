@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -29,7 +28,6 @@ import {
 @Injectable()
 export class StoreCategoryService implements OnModuleInit {
   private storeCategoryService: StoreCategoryServiceClient;
-  protected readonly logger = new Logger(StoreCategoryService.name);
   constructor(
     @Inject('STORE_CATEGORY_SERVICE')
     private readonly storeCategoryServiceClient: ClientGrpc,
@@ -89,8 +87,9 @@ export class StoreCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreCategoryService: findByLanguage',
+      });
     }
   }
 
@@ -104,8 +103,9 @@ export class StoreCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreCategoryService: findAll',
+      });
     }
   }
 
@@ -130,8 +130,9 @@ export class StoreCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreCategoryService: findById',
+      });
     }
   }
 
@@ -145,8 +146,9 @@ export class StoreCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreCategoryService: create',
+      });
     }
   }
 
@@ -160,8 +162,9 @@ export class StoreCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreCategoryService: update',
+      });
     }
   }
 
@@ -173,8 +176,9 @@ export class StoreCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'StoreCategoryService: delete',
+      });
     }
   }
 }

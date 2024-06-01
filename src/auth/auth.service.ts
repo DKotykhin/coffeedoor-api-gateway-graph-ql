@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { errorCodeImplementation } from '../utils/error-code-implementation';
 import { FileUploadService } from '../file-upload/file-upload.service';
+
 import {
   AUTH_SERVICE_NAME,
   AuthServiceClient,
@@ -50,10 +51,12 @@ export class AuthService implements OnModuleInit {
     try {
       return await firstValueFrom(this.authService.signUp(signUpDto));
     } catch (error) {
-      this.logger.error(error?.details);
       throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
+        error.details,
+        errorCodeImplementation(error.code),
+        {
+          cause: 'AuthService: signUp',
+        },
       );
     }
   }
@@ -68,13 +71,15 @@ export class AuthService implements OnModuleInit {
       }
       const payload: JwtPayload = { email: user.email };
       const auth_token = this.jwtService.sign(payload);
-      // console.log('auth_token:', auth_token);
+      this.logger.debug('auth_token:', auth_token);
       return { user, token: auth_token };
     } catch (error) {
-      this.logger.error(error?.details);
       throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
+        error.details,
+        errorCodeImplementation(error.code),
+        {
+          cause: 'AuthService: signIn',
+        },
       );
     }
   }
@@ -83,10 +88,12 @@ export class AuthService implements OnModuleInit {
     try {
       return await firstValueFrom(this.authService.confirmEmail({ token }));
     } catch (error) {
-      this.logger.error(error?.details);
       throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
+        error.details,
+        errorCodeImplementation(error.code),
+        {
+          cause: 'AuthService: confirmEmail',
+        },
       );
     }
   }
@@ -95,10 +102,12 @@ export class AuthService implements OnModuleInit {
     try {
       return await firstValueFrom(this.authService.resendEmail(email));
     } catch (error) {
-      this.logger.error(error?.details);
       throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
+        error.details,
+        errorCodeImplementation(error.code),
+        {
+          cause: 'AuthService: resendEmail',
+        },
       );
     }
   }
@@ -107,10 +116,12 @@ export class AuthService implements OnModuleInit {
     try {
       return await firstValueFrom(this.authService.resetPassword(emailDto));
     } catch (error) {
-      this.logger.error(error?.details);
       throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
+        error.details,
+        errorCodeImplementation(error.code),
+        {
+          cause: 'AuthService: resetPassword',
+        },
       );
     }
   }
@@ -124,10 +135,12 @@ export class AuthService implements OnModuleInit {
         this.authService.setNewPassword({ token, password }),
       );
     } catch (error) {
-      this.logger.error(error?.details);
       throw new HttpException(
-        error?.details,
-        errorCodeImplementation(error?.code),
+        error.details,
+        errorCodeImplementation(error.code),
+        {
+          cause: 'AuthService: setNewPassword',
+        },
       );
     }
   }

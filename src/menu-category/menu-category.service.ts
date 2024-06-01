@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -28,7 +27,6 @@ import { MenuCategoryWithItems } from './entities/menu-category-with-items.entit
 @Injectable()
 export class MenuCategoryService implements OnModuleInit {
   private menuCategoryService: MenuCategoryServiceClient;
-  protected readonly logger = new Logger(MenuCategoryService.name);
   constructor(
     @Inject('MENU_CATEGORY_SERVICE')
     private readonly menuServiceClient: ClientGrpc,
@@ -62,8 +60,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: findByLanguage',
+      });
     }
   }
 
@@ -76,8 +75,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: findAll',
+      });
     }
   }
 
@@ -89,8 +89,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: findById',
+      });
     }
   }
 
@@ -104,8 +105,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: create',
+      });
     }
   }
 
@@ -121,8 +123,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: update',
+      });
     }
   }
 
@@ -138,8 +141,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: changePosition',
+      });
     }
   }
 
@@ -151,8 +155,9 @@ export class MenuCategoryService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuCategoryService: remove',
+      });
     }
   }
 }

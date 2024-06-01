@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -21,7 +20,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService implements OnModuleInit {
   private userService: UserServiceClient;
-  protected readonly logger = new Logger(UserService.name);
   constructor(
     @Inject('USER_SERVICE') private readonly userServiceClient: ClientGrpc,
     private readonly fileUploadService: FileUploadService,
@@ -38,8 +36,9 @@ export class UserService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'UserService: getUserByEmail',
+      });
     }
   }
 
@@ -49,8 +48,9 @@ export class UserService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'UserService: getUserById',
+      });
     }
   }
 
@@ -62,8 +62,9 @@ export class UserService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'UserService: updateUser',
+      });
     }
   }
 
@@ -73,8 +74,9 @@ export class UserService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'UserService: deleteUser',
+      });
     }
   }
 
@@ -86,8 +88,9 @@ export class UserService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'UserService: confirmPassword',
+      });
     }
   }
 
@@ -99,8 +102,9 @@ export class UserService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'UserService: changePassword',
+      });
     }
   }
 
@@ -118,10 +122,12 @@ export class UserService implements OnModuleInit {
         message: 'Avatar uploaded successfully',
       };
     } catch (error) {
-      this.logger.error(error.message);
       throw new HttpException(
         "Can't upload avatar",
         errorCodeImplementation(error.code),
+        {
+          cause: 'UserService: uploadAvatar',
+        },
       );
     }
   }
@@ -142,10 +148,12 @@ export class UserService implements OnModuleInit {
         message: 'Avatar deleted successfully',
       };
     } catch (error) {
-      this.logger.error(error.message);
       throw new HttpException(
         "Can't delete avatar",
         errorCodeImplementation(error.code),
+        {
+          cause: 'UserService: deleteAvatar',
+        },
       );
     }
   }

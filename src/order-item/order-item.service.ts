@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -21,7 +20,6 @@ import {
 @Injectable()
 export class OrderItemService implements OnModuleInit {
   private orderItemService: OrderItemServiceClient;
-  protected readonly logger = new Logger(OrderItemService.name);
   constructor(
     @Inject('ORDER_ITEM_SERVICE')
     private readonly orderItemServiceClient: ClientGrpc,
@@ -42,8 +40,9 @@ export class OrderItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'OrderItemService: findOrderItemById',
+      });
     }
   }
 
@@ -56,8 +55,9 @@ export class OrderItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'OrderItemService: findOrderItemsByOrderId',
+      });
     }
   }
 
@@ -70,8 +70,9 @@ export class OrderItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'OrderItemService: createOrderItem',
+      });
     }
   }
 
@@ -84,8 +85,9 @@ export class OrderItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'OrderItemService: updateOrderItem',
+      });
     }
   }
 
@@ -98,8 +100,9 @@ export class OrderItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'OrderItemService: deleteOrderItem',
+      });
     }
   }
 }

@@ -2,7 +2,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  Logger,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -21,7 +20,6 @@ import {
 @Injectable()
 export class MenuItemService implements OnModuleInit {
   private menuItemService: MenuItemServiceClient;
-  protected readonly logger = new Logger(MenuItemService.name);
   constructor(
     @Inject('MENU_ITEM_SERVICE') private readonly menuServiceClient: ClientGrpc,
   ) {}
@@ -41,8 +39,9 @@ export class MenuItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuItemService: findAllByCategoryId',
+      });
     }
   }
 
@@ -52,8 +51,9 @@ export class MenuItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuItemService: findById',
+      });
     }
   }
 
@@ -65,8 +65,9 @@ export class MenuItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuItemService: create',
+      });
     }
   }
 
@@ -80,8 +81,9 @@ export class MenuItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuItemService: update',
+      });
     }
   }
 
@@ -95,8 +97,9 @@ export class MenuItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuItemService: changePosition',
+      });
     }
   }
 
@@ -106,8 +109,9 @@ export class MenuItemService implements OnModuleInit {
     } catch (error) {
       const code = errorCodeImplementation(error.code);
       const message = error.details;
-      this.logger.error(`Error code: ${code} - ${message}`);
-      throw new HttpException(message, code);
+      throw new HttpException(message, code, {
+        cause: 'MenuItemService: remove',
+      });
     }
   }
 }
