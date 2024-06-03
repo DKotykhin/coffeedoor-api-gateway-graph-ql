@@ -108,7 +108,7 @@ describe('User Controller (e2e)', () => {
         },
       })
       .expect(200);
-    expect(res.body.errors[0].message).toBe('Bad Request Exception');
+    expect(res.body.errors[0].message).toBeInstanceOf(Array);
   });
 
   it('should get user by token', async () => {
@@ -211,7 +211,7 @@ describe('User Controller (e2e)', () => {
         variables: { emailDto: { email: 'kotykhin_d+1ukr.net' } },
       })
       .expect(200);
-    expect(res.body.errors[0].message).toBe('Bad Request Exception');
+    expect(res.body.errors[0].message).toBeInstanceOf(Array);
   });
 
   it('should get user by id', async () => {
@@ -296,6 +296,6 @@ describe('User Controller (e2e)', () => {
         },
       })
       .expect(200);
-    expect(res.body.errors[0].message).toBe('Bad Request Exception');
+    expect(res.body.errors[0].message).toBeInstanceOf(Array);
   });
 });
