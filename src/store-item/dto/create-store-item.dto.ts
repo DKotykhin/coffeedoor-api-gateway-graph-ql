@@ -3,20 +3,14 @@ import {
   IsEnum,
   IsNotEmptyObject,
   IsPositive,
-  IsUUID,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 import { LanguageCode } from '../../common/types/enums';
+import { IdDto } from '../../common/_index';
 
-@InputType()
-class StoreCategoryId {
-  @Field()
-  @IsUUID()
-  id: string;
-}
 @InputType()
 export class CreateStoreItemDto {
   @Field()
@@ -72,10 +66,10 @@ export class CreateStoreItemDto {
   @IsPositive()
   position: number;
 
-  @Field(() => StoreCategoryId)
+  @Field(() => IdDto)
   @IsDefined()
   @IsNotEmptyObject()
   @ValidateNested()
-  @Type(() => StoreCategoryId)
-  category: StoreCategoryId;
+  @Type(() => IdDto)
+  category: IdDto;
 }

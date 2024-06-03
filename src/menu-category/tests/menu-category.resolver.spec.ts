@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+
 import { MenuCategoryResolver } from '../menu-category.resolver';
 import { MenuCategoryService } from '../menu-category.service';
 
@@ -12,6 +14,10 @@ describe('MenuCategoryResolver', () => {
         MenuCategoryService,
         {
           provide: 'MENU_CATEGORY_SERVICE',
+          useValue: {},
+        },
+        {
+          provide: CACHE_MANAGER,
           useValue: {},
         },
       ],

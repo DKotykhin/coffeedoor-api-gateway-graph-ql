@@ -4,16 +4,10 @@ import {
   IsDefined,
   IsNotEmptyObject,
   IsPositive,
-  IsUUID,
   ValidateNested,
 } from 'class-validator';
 
-@InputType()
-class OrderId {
-  @Field()
-  @IsUUID()
-  id: string;
-}
+import { IdDto } from '../../common/_index';
 
 @InputType()
 export class CreateOrderItem {
@@ -38,10 +32,10 @@ export class CreateOrderItem {
   @IsPositive()
   weight: number;
 
-  @Field(() => OrderId)
+  @Field(() => IdDto)
   @IsDefined()
   @IsNotEmptyObject()
   @ValidateNested()
-  @Type(() => OrderId)
-  order: OrderId;
+  @Type(() => IdDto)
+  order: IdDto;
 }

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 import { StoreCategoryResolver } from '../store-category.resolver';
 import { StoreCategoryService } from '../store-category.service';
@@ -18,6 +19,10 @@ describe('StoreCategoryResolver', () => {
         },
         {
           provide: FileUploadService,
+          useValue: {},
+        },
+        {
+          provide: CACHE_MANAGER,
           useValue: {},
         },
       ],
